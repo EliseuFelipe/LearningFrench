@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learn French with Video</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Roboto', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: '#4f8a8b',
+            accent: '#fbd46d',
+            light: '#f0f4f8',
+            darkBg: '#1e293b',
+            darkText: '#f1f5f9'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-white dark:bg-gray-900 shadow-md px-6 py-4 flex justify-between items-center">
+    <div class="text-xl font-bold text-primary dark:text-accent">LearnFrench</div>
+    <div class="flex items-center gap-4">
+      <button id="theme-toggle" class="text-xl" aria-label="Alternar tema">🌙</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8 max-w-7xl flex gap-6">
+    <!-- Video and Transcripts Card -->
+    <div class="flex-1 bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+      <header class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-darkText">Aprenda Francês com Vídeos</h1>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">Assista, leia, compare e aprenda de forma natural</p>
+      </header>
+      <div class="grid grid-cols-1 gap-6">
+        <!-- Video Player -->
+        <div class="flex justify-center">
+          <div id="player" class="w-full max-w-3xl aspect-video rounded-md overflow-hidden shadow"></div>
+        </div>
+        <!-- Scroll Button -->
+        <div class="flex justify-center">
+          <button id="scroll-to-highlight" class="material-button bg-primary text-white font-medium py-2.5 px-6 rounded-md hover:bg-[#407f7e] disabled:bg-gray-400 dark:disabled:bg-gray-700 disabled:cursor-not-allowed">Ir para Texto Atual</button>
+        </div>
+        <!-- Transcripts -->
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+          <div id="french-container" class="w-full md:w-5/12 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm transcript-container">
+            <h2 class="text-lg font-medium mb-4 text-center text-gray-800 dark:text-darkText">Francês</h2>
+            <div id="french-transcript"></div>
+          </div>
+          <div id="portuguese-container" class="w-full md:w-5/12 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm transcript-container">
+            <h2 class="text-lg font-medium mb-4 text-center text-gray-800 dark:text-darkText">Português</h2>
+            <div id="portuguese-transcript"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Video Catalog Sidebar -->
+    <aside class="hidden md:block w-48 flex-shrink-0">
+      <div class="sticky top-8">
+        <h2 class="text-lg font-medium mb-4 text-gray-800 dark:text-darkText">Vídeos</h2>
+        <div class="space-y-4">
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="5ovh-Ux_zRs">
+            <img src="https://img.youtube.com/vi/5ovh-Ux_zRs/0.jpg" alt="Video 1" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="kXYiU_JCYtU">
+            <img src="https://img.youtube.com/vi/kXYiU_JCYtU/0.jpg" alt="Video 2" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ScMzIvxBSi4">
+            <img src="https://img.youtube.com/vi/ScMzIvxBSi4/0.jpg" alt="Video 3" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ysz5S6PUM-U">
+            <img src="https://img.youtube.com/vi/ysz5S6PUM-U/0.jpg" alt="Video 4" class="w-full h-24 object-cover">
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- Mobile Video Catalog -->
+    <div id="mobile-catalog" class="md:hidden mt-6">
+      <button id="toggle-catalog" class="material-button bg-primary text-white font-medium py-2 px-4 rounded-md hover:bg-[#407f7e] w-full">Mostrar Vídeos</button>
+      <div id="catalog-section" class="hidden mt-4">
+        <h2 class="text-lg font-medium mb-4 text-gray-800 dark:text-darkText">Vídeos</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="5ovh-Ux_zRs">
+            <img src="https://img.youtube.com/vi/5ovh-Ux_zRs/0.jpg" alt="Video 1" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="kXYiU_JCYtU">
+            <img src="https://img.youtube.com/vi/kXYiU_JCYtU/0.jpg" alt="Video 2" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ScMzIvxBSi4">
+            <img src="https://img.youtube.com/vi/ScMzIvxBSi4/0.jpg" alt="Video 3" class="w-full h-24 object-cover">
+          </div>
+          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ysz5S6PUM-U">
+            <img src="https://img.youtube.com/vi/ysz5S6PUM-U/0.jpg" alt="Video 4" class="w-full h-24 object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 py-6 bg-white dark:bg-gray-900 text-center text-sm text-gray-500 dark:text-gray-400">
+    <p>© 2025 LearnFrench. Todos os direitos reservados.</p>
+    <p>Feito com ❤️ e Tailwind CSS.</p>
+  </footer>
+
+  <!-- YouTube API and Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
