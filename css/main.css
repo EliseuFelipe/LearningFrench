@@ -52,13 +52,17 @@
   border-radius: 3px;
 }
 .transcript-p {
-  padding: 1rem;
-  margin: 0.5rem 0;
+  padding: 0.75rem;
+  margin: 0;
   border-radius: 8px;
   transition: background-color 0.2s ease;
   cursor: pointer;
-  line-height: 1.6;
+  line-height: 1.5;
   color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
 }
 .dark .transcript-p {
   color: #f1f5f9;
@@ -102,4 +106,60 @@
 }
 .dark .transcript-p.highlight {
   background-color: #b58900 !important;
+}
+select.material-button {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5rem;
+}
+#phonetic-tooltip {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#phonetic-tooltip.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+#phonetic-tooltip:not(.hidden) {
+  opacity: 1;
+  transform: scale(1);
+}
+#phonetic-tooltip .tooltip-arrow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #ffffff;
+}
+.dark #phonetic-tooltip .tooltip-arrow {
+  border-top-color: #1e293b;
+}
+.phonetic-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1rem;
+  color: #4f8a8b;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.phonetic-toggle:hover {
+  color: #407f7e;
+}
+.phonetic-toggle:focus {
+  outline: 2px solid #4f8a8b;
+  outline-offset: 2px;
+}
+.phonetic-toggle.active {
+  color: #407f7e;
+  font-weight: bold;
 }
