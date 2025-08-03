@@ -1,0 +1,839 @@
+1
+00:00:01,890 --> 00:00:02,670
+Fukushima, Chernobyl.
+
+2
+00:00:08,300 --> 00:00:11,960
+These two nuclear accidents caused
+radioactive releases
+
+3
+00:00:12,160 --> 00:00:13,280
+harmful to health.
+
+4
+00:00:14,510 --> 00:00:18,680
+In Fukushima, the number of victims
+from radioactivity is estimated
+
+5
+00:00:18,880 --> 00:00:22,880
+between one and a thousand deaths.
+
+6
+00:00:23,080 --> 00:00:26,750
+In Chernobyl, between 4,000 and
+60,000 deaths.
+
+7
+00:00:28,680 --> 00:00:31,050
+So, is nuclear power dangerous?
+
+8
+00:00:33,980 --> 00:00:39,380
+Well, yes, but what is less known
+is that nuclear energy
+
+9
+00:00:39,580 --> 00:00:41,030
+has also done something else.
+
+10
+00:00:42,360 --> 00:00:47,910
+It has saved lives,
+hundreds of thousands of lives.
+
+11
+00:00:49,500 --> 00:00:53,130
+In fact, nuclear power
+is above all a matter of balance
+
+12
+00:00:53,330 --> 00:00:56,340
+between dangers, risks, and benefits.
+
+13
+00:00:58,740 --> 00:01:02,070
+To see more clearly,
+let’s first look at where the danger comes from.
+
+14
+00:01:05,850 --> 00:01:11,040
+In a nuclear power plant,
+there is a reactor and, inside it,
+
+15
+00:01:11,340 --> 00:01:12,100
+uranium.
+
+16
+00:01:14,040 --> 00:01:16,560
+The atoms of this uranium do
+two things.
+
+17
+00:01:16,760 --> 00:01:21,300
+One, they naturally disintegrate,
+releasing radiation.
+
+18
+00:01:21,500 --> 00:01:26,790
+Two, some of them split
+in two, releasing even
+
+19
+00:01:26,990 --> 00:01:30,300
+more radiation,
+but also energy.
+
+20
+00:01:30,500 --> 00:01:33,810
+This is what allows the generation
+of electricity.
+
+21
+00:01:35,100 --> 00:01:38,520
+The problem is that all this
+radiation is very harmful
+
+22
+00:01:38,720 --> 00:01:39,480
+to health.
+
+23
+00:01:40,230 --> 00:01:43,140
+It can kill a human in a few
+seconds.
+
+24
+00:01:43,340 --> 00:01:48,450
+This is exactly why the reactor
+is enclosed in a structure
+
+25
+00:01:48,650 --> 00:01:51,840
+of steel or concrete nearly
+a meter thick.
+
+26
+00:01:53,130 --> 00:01:55,950
+Outside this barrier,
+there is no danger.
+
+27
+00:01:58,140 --> 00:02:00,240
+The problem is when something breaks.
+
+28
+00:02:00,440 --> 00:02:07,650
+Chernobyl, April 1986.
+
+29
+00:02:07,850 --> 00:02:12,130
+The reactor explosion kills two
+people and causes the emission
+
+30
+00:02:12,330 --> 00:02:13,090
+of radiation.
+
+31
+00:02:13,290 --> 00:02:17,650
+It irradiates nearby people,
+including 29 firefighters who
+
+32
+00:02:17,850 --> 00:02:18,850
+die in the following days.
+
+33
+00:02:20,290 --> 00:02:24,070
+At the same time, a large
+quantity of radioactive particles
+
+34
+00:02:24,270 --> 00:02:25,510
+is released into the environment.
+
+35
+00:02:26,550 --> 00:02:30,510
+If they reach living beings,
+they can contaminate them and
+
+36
+00:02:30,710 --> 00:02:32,670
+promote the onset of cancers.
+
+37
+00:02:32,870 --> 00:02:37,000
+So, how many people died
+in the long term due to
+
+38
+00:02:37,200 --> 00:02:38,680
+radiation and contamination?
+
+39
+00:02:40,930 --> 00:02:45,250
+Estimates range between 4,000
+and 60,000 deaths.
+
+40
+00:02:46,120 --> 00:02:48,970
+This wide uncertainty is explained
+by three reasons.
+
+41
+00:02:49,170 --> 00:02:52,510
+First, the USSR authorities
+
+42
+00:02:52,710 --> 00:02:55,630
+communicated little about the analysis
+of radioactive fallout.
+
+43
+00:02:57,190 --> 00:03:00,970
+Second reason, there was no
+explosion in the number of diseases
+
+44
+00:03:01,170 --> 00:03:02,020
+after the disaster.
+
+45
+00:03:02,890 --> 00:03:06,790
+And so, among all the diseases
+observed, it is difficult to detect
+
+46
+00:03:06,990 --> 00:03:09,310
+which ones were caused by
+contamination.
+
+47
+00:03:10,720 --> 00:03:13,390
+Last difficulty,
+diseases can take
+
+48
+00:03:13,590 --> 00:03:14,590
+time to manifest.
+
+49
+00:03:15,310 --> 00:03:18,700
+It will therefore take decades
+for all the contaminated people
+
+50
+00:03:18,900 --> 00:03:20,890
+to actually die.
+
+51
+00:03:21,090 --> 00:03:25,480
+According to the World Health
+Organization, the death toll could
+
+52
+00:03:25,680 --> 00:03:29,530
+reach up to 4,000,
+an estimate based on the work
+
+53
+00:03:29,730 --> 00:03:33,460
+of several United Nations agencies,
+including UNSCEAR,
+
+54
+00:03:33,790 --> 00:03:36,970
+a sort of IPCC made up of
+radiation specialists.
+
+55
+00:03:42,930 --> 00:03:44,880
+25 years later, in Fukushima.
+
+56
+00:03:45,080 --> 00:03:50,130
+Following the earthquake,
+the tsunami, and the nuclear accident,
+
+57
+00:03:50,330 --> 00:03:53,550
+the evacuation of the area caused 2,200
+deaths, according to Japanese authorities.
+
+58
+00:03:53,750 --> 00:03:54,510
+The radiation, for its part,
+
+59
+00:03:55,170 --> 00:03:58,200
+killed one person from lung
+cancer in 2018.
+
+60
+00:03:58,400 --> 00:03:59,610
+Today, estimates range between one
+and a thousand deaths in the long term.
+
+61
+00:03:59,810 --> 00:04:04,440
+So, this is what we know about the impact
+of nuclear disasters.
+
+62
+00:04:06,210 --> 00:04:09,630
+Now, let’s compare it to other
+
+63
+00:04:09,830 --> 00:04:14,820
+energy sources, as they too
+can kill.
+
+64
+00:04:15,020 --> 00:04:18,000
+To clarify,
+let’s look at the number of deaths per
+
+65
+00:04:19,950 --> 00:04:22,680
+100 terawatt-hours produced.
+
+66
+00:04:22,880 --> 00:04:24,180
+100 terawatt-hours, roughly,
+is the energy consumption
+
+67
+00:04:25,200 --> 00:04:28,020
+of France in two weeks.
+
+68
+00:04:28,220 --> 00:04:29,520
+Here’s what it looks like for solar
+and wind power.
+
+69
+00:04:30,810 --> 00:04:33,330
+Two deaths and four deaths,
+respectively, for every 100 terawatt-hours
+
+70
+00:04:34,290 --> 00:04:38,280
+produced.
+
+71
+00:04:38,480 --> 00:04:39,240
+They are mainly due to accidents
+during construction
+
+72
+00:04:39,750 --> 00:04:43,230
+or maintenance.
+
+73
+00:04:43,430 --> 00:04:44,190
+For hydroelectric power,
+there are two deaths.
+
+74
+00:04:45,270 --> 00:04:48,240
+This is mainly due to
+dam failures that can
+
+75
+00:04:48,440 --> 00:04:51,360
+kill dozens, hundreds, or even,
+
+76
+00:04:51,560 --> 00:04:53,700
+on one occasion in China,
+tens of thousands
+
+77
+00:04:54,210 --> 00:04:56,790
+of people.
+
+78
+00:04:56,990 --> 00:04:57,750
+That’s for renewable energies.
+
+79
+00:04:59,200 --> 00:05:00,760
+Now, let’s move on to fossil fuels.
+
+80
+00:05:00,960 --> 00:05:03,640
+For gas, there are 282 deaths,
+always per 100 terawatt-hours.
+
+81
+00:05:04,920 --> 00:05:09,300
+Oil, 1,843, coal,
+2,462, and lignite,
+
+82
+00:05:10,230 --> 00:05:17,460
+a lower-quality coal,
+3,272.
+
+83
+00:05:17,700 --> 00:05:21,330
+Most of these deaths result
+from the pollution emitted by
+
+84
+00:05:22,470 --> 00:05:25,800
+fossil fuels.
+
+85
+00:05:26,000 --> 00:05:26,760
+These are harmful gases and
+fine particles that cause
+
+86
+00:05:27,150 --> 00:05:30,450
+respiratory and
+cardiovascular diseases.
+
+87
+00:05:30,650 --> 00:05:33,030
+It is estimated that, every year,
+this pollution kills 3.6 million
+
+88
+00:05:33,900 --> 00:05:37,680
+people.
+
+89
+00:05:37,880 --> 00:05:38,640
+To this, add the accidents
+during the extraction of gas,
+
+90
+00:05:38,840 --> 00:05:42,590
+coal, or oil.
+
+91
+00:05:42,790 --> 00:05:44,360
+Lignite, therefore, kills 12 times more
+than gas, which itself kills 140
+
+92
+00:05:45,680 --> 00:05:51,200
+times more than solar.
+
+93
+00:05:51,400 --> 00:05:52,370
+And nuclear power in all this?
+
+94
+00:05:52,570 --> 00:05:54,380
+It’s here, seven deaths per 100
+terawatt-hours.
+
+95
+00:05:55,490 --> 00:05:58,640
+The figure accounts for accidents
+at all stages
+
+96
+00:06:00,650 --> 00:06:03,410
+of the production cycle,
+the WHO’s estimate of 4,000 deaths
+
+97
+00:06:03,610 --> 00:06:07,130
+in Chernobyl, and the victims of
+Fukushima.
+
+98
+00:06:07,330 --> 00:06:09,620
+Based on these differences
+in mortality, a study estimated
+
+99
+00:06:11,990 --> 00:06:15,800
+that, by replacing fossil fuels,
+nuclear power has prevented
+
+100
+00:06:16,000 --> 00:06:20,270
+a large amount of atmospheric
+pollution that would have killed
+
+101
+00:06:20,470 --> 00:06:23,960
+nearly two million people
+between 1976 and 2009.
+
+102
+00:06:24,160 --> 00:06:28,520
+What we see, then, is that despite
+the inherent dangers of nuclear power,
+
+103
+00:06:32,410 --> 00:06:36,190
+its damages remain moderate compared
+to other energy sources.
+
+104
+00:06:36,520 --> 00:06:40,090
+And this relies on another concept,
+risk.
+
+105
+00:06:40,840 --> 00:06:43,960
+Risk defines the probability
+that problems will occur.
+
+106
+00:06:44,890 --> 00:06:48,280
+In the case of nuclear power,
+managing this risk requires
+
+107
+00:06:49,900 --> 00:06:53,080
+resources.
+
+108
+00:06:53,280 --> 00:06:54,040
+It is necessary to monitor the plants,
+control anomalies,
+
+109
+00:06:54,280 --> 00:06:57,760
+maintain and renovate facilities,
+and plan for devices in case
+
+110
+00:06:58,450 --> 00:07:03,250
+of accidents.
+
+111
+00:07:03,450 --> 00:07:04,210
+Until today,
+this risk has been relatively well managed.
+
+112
+00:07:04,410 --> 00:07:08,010
+The question is whether
+it will always be in the future.
+
+113
+00:07:08,700 --> 00:07:11,550
+This will depend, on one hand, on controllable
+parameters, such as maintenance
+
+114
+00:07:12,480 --> 00:07:16,470
+of technical expertise,
+invested resources, and sustained
+
+115
+00:07:16,670 --> 00:07:20,370
+vigilance.
+
+116
+00:07:20,570 --> 00:07:21,330
+And, on the other, on uncertainties
+such as natural disasters,
+
+117
+00:07:22,200 --> 00:07:25,890
+technical failures,
+the evolution of human activities,
+
+118
+00:07:26,400 --> 00:07:29,760
+and so on.
+
+119
+00:07:29,960 --> 00:07:30,720
+This risk issue also appears
+in another aspect of the nuclear question:
+
+120
+00:07:35,470 --> 00:07:38,260
+the management of radioactive waste.
+
+121
+00:07:38,460 --> 00:07:41,620
+It includes many things:
+the tools and clothing used
+
+122
+00:07:42,670 --> 00:07:46,030
+in the plants, the debris
+from the dismantling of these
+
+123
+00:07:46,230 --> 00:07:49,360
+plants, or even the remains
+of the uranium used in the
+
+124
+00:07:49,560 --> 00:07:52,870
+reactors.
+
+125
+00:07:53,070 --> 00:07:53,830
+Today, in France,
+91% of this waste is low
+
+126
+00:07:54,030 --> 00:07:59,230
+or moderately radioactive and will
+remain so for a few years
+
+127
+00:07:59,430 --> 00:08:02,950
+or centuries.
+
+128
+00:08:03,150 --> 00:08:03,910
+They can be stored on the surface
+until they are no longer
+
+129
+00:08:05,410 --> 00:08:07,750
+dangerous.
+
+130
+00:08:07,950 --> 00:08:08,710
+6% are low-level radioactive,
+but will remain so for a long time,
+
+131
+00:08:08,910 --> 00:08:14,290
+tens or even hundreds
+of thousands of years.
+
+132
+00:08:14,770 --> 00:08:17,200
+It is considered to bury them at several
+tens of meters.
+
+133
+00:08:19,360 --> 00:08:22,210
+The remaining 3% are highly radioactive
+and will remain so for
+
+134
+00:08:23,890 --> 00:08:27,760
+hundreds of thousands of years.
+
+135
+00:08:27,960 --> 00:08:29,290
+The idea is to bury them deep,
+500 meters underground.
+
+136
+00:08:29,490 --> 00:08:33,850
+In all cases, the issue
+of risk arises, human risks,
+
+137
+00:08:35,980 --> 00:08:39,940
+but also natural risks.
+
+138
+00:08:41,140 --> 00:08:42,700
+Especially in the case of highly
+radioactive waste, whose risk extends
+
+139
+00:08:42,900 --> 00:08:48,190
+over hundreds of thousands of years.
+
+140
+00:08:48,390 --> 00:08:49,840
+This is why long-term
+storage projects,
+
+141
+00:08:50,040 --> 00:08:53,440
+like Cigéo in France,
+undertake significant work
+
+142
+00:08:53,680 --> 00:08:56,470
+of anticipation.
+
+143
+00:08:56,670 --> 00:08:57,430
+After the danger and risks,
+there remains the question of benefits.
+
+144
+00:09:03,520 --> 00:09:07,930
+And there is one that is central,
+the fight against global
+
+145
+00:09:09,430 --> 00:09:13,120
+warming.
+
+146
+00:09:13,320 --> 00:09:14,080
+To understand, let’s revisit our
+comparison with other energy
+
+147
+00:09:15,130 --> 00:09:18,730
+sources.
+
+148
+00:09:18,930 --> 00:09:19,690
+On one hand, the number of deaths.
+
+149
+00:09:19,890 --> 00:09:21,340
+And on the other, the emissions of
+greenhouse gases per 100
+
+150
+00:09:21,700 --> 00:09:24,520
+terawatt-hours of electricity produced.
+
+151
+00:09:24,720 --> 00:09:26,410
+Fossil fuels are highly
+emitting, several tens
+
+152
+00:09:27,190 --> 00:09:31,240
+of millions of tons each.
+
+153
+00:09:31,440 --> 00:09:32,530
+For renewables,
+it’s much less,
+
+154
+00:09:34,090 --> 00:09:35,680
+between a few hundred and a few
+million tons.
+
+155
+00:09:36,220 --> 00:09:38,710
+And for nuclear power,
+300,000 tons per 100 terawatt-hours.
+
+156
+00:09:39,880 --> 00:09:43,240
+That’s 270 times less than coal,
+for example.
+
+157
+00:09:43,440 --> 00:09:46,630
+Now, greenhouse gases cause
+global warming.
+
+158
+00:09:46,830 --> 00:09:50,560
+And according to IPCC analyses,
+it puts many people at risk of death.
+
+159
+00:09:51,010 --> 00:09:54,400
+Low-emission energy sources
+are therefore necessary to limit it,
+
+160
+00:09:56,230 --> 00:09:59,800
+including nuclear power.
+
+161
+00:10:00,430 --> 00:10:01,810
+Well, whether with the plants
+or the waste, nuclear power represents
+
+162
+00:10:02,010 --> 00:10:08,690
+a certain level of danger,
+indeed.
+
+163
+00:10:08,890 --> 00:10:10,010
+The risk, on the other hand, depends on many
+factors, but some are
+
+164
+00:10:11,480 --> 00:10:15,380
+controllable.
+
+165
+00:10:15,580 --> 00:10:16,340
+In parallel, finally,
+we must consider the significant
+
+166
+00:10:16,940 --> 00:10:19,910
+benefit in the fight against
+global warming.
+
+167
+00:10:20,110 --> 00:10:22,640
+It is by taking these
+three parameters into account that we can evaluate
+
+168
+00:10:22,840 --> 00:10:26,030
+nuclear energy correctly.
+
+169
+00:10:26,230 --> 00:10:28,100
+Thank you for watching this video.
+
+170
+00:10:33,290 --> 00:10:34,850
+We hope you enjoyed it.
+
+171
+00:10:35,050 --> 00:10:35,840
+There is one aspect we haven’t addressed,
+which is the question of whether
+
+172
+00:10:36,230 --> 00:10:38,810
+the existence of nuclear power plants
+can promote the proliferation
+
+173
+00:10:39,010 --> 00:10:42,200
+of nuclear weapons.
+
+174
+00:10:42,400 --> 00:10:43,160
+This is a debate that goes beyond
+the operation of the plants.
+
+175
+00:10:43,360 --> 00:10:45,650
+It raises many geopolitical,
+security, and
+
+176
+00:10:45,890 --> 00:10:49,070
+technical issues that are not the same.
+
+177
+00:10:49,270 --> 00:10:50,290
+We may address the issue
+in a future video.
+
+178
+00:10:50,490 --> 00:10:52,520
+In the meantime, if you’re interested,
+we’ve included many links in
+
+179
+00:10:52,760 --> 00:10:55,140
+the description to other videos
+we’ve made that deal with
+
+180
+00:10:55,340 --> 00:10:57,110
+the atomic bomb.

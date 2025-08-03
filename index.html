@@ -16,53 +16,60 @@
             sans: ['Roboto', 'Inter', 'sans-serif'],
           },
           colors: {
-            primary: '#4f8a8b',
-            accent: '#fbd46d',
-            light: '#f0f4f8',
-            darkBg: '#1e293b',
-            darkText: '#f1f5f9'
+            primary: '#5E4DB2', // Vibrant purple
+            accent: '#FF9F43',  // Bright orange
+            light: '#F3F0F7',   // Light lavender
+            darkBg: '#1F1D36',  // Deep purple
+            darkText: '#EDE9F2' // Light purple-white
           }
         }
       }
     }
   </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 font-sans">
+<body class="bg-light dark:bg-darkBg transition-colors duration-300 font-sans">
   <!-- Navbar -->
-  <nav class="bg-white dark:bg-gray-900 shadow-md px-6 py-4 flex justify-between items-center">
-    <div class="text-xl font-bold text-primary dark:text-accent">LearnFrench</div>
+  <nav class="bg-white dark:bg-darkBg shadow-md px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl font-bold text-primary dark:text-accent">LearnFrench</span>
+      <span class="text-sm text-gray-600 dark:text-gray-400 hidden sm:block">Aprenda Francês com Estilo</span>
+    </div>
     <div class="flex items-center gap-4">
-      <button id="theme-toggle" class="text-xl" aria-label="Alternar tema">🌙</button>
+      <button id="theme-toggle" class="material-button bg-primary text-white font-medium py-1 px-3 rounded-md hover:bg-[#4A3B8C]" aria-label="Alternar tema">Claro</button>
     </div>
   </nav>
 
   <!-- Main Content -->
   <main class="container mx-auto px-4 py-8 max-w-7xl flex gap-6">
     <!-- Video and Transcripts Card -->
-    <div class="flex-1 bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
-      <header class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-darkText">Aprenda Francês com Vídeos</h1>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">Assista, leia, compare e aprenda de forma natural</p>
+    <div class="flex-1 bg-white dark:bg-darkBg rounded-lg shadow-md p-6">
+      <header class="text-center mb-6 bg-primary dark:bg-[#4A3B8C] text-white py-4 rounded-md">
+        <h1 class="text-3xl font-bold">Aprenda Francês com Vídeos</h1>
+        <p class="text-sm mt-2 opacity-90">Explore vídeos interativos com legendas em francês e traduções em tempo real</p>
       </header>
       <div class="grid grid-cols-1 gap-6">
         <!-- Video Player -->
         <div class="flex justify-center">
           <div id="player" class="w-full max-w-3xl aspect-video rounded-md overflow-hidden shadow"></div>
         </div>
-        <!-- Scroll Button -->
+        <!-- Center Highlight Button -->
         <div class="flex justify-center">
-          <button id="scroll-to-highlight" class="material-button bg-primary text-white font-medium py-2.5 px-6 rounded-md hover:bg-[#407f7e] disabled:bg-gray-400 dark:disabled:bg-gray-700 disabled:cursor-not-allowed">Ir para Texto Atual</button>
+          <button id="center-highlight" class="material-button bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#4A3B8C] disabled:bg-gray-400 dark:disabled:bg-gray-700 disabled:cursor-not-allowed" aria-label="Centralizar texto atual" title="Centralizar texto atual">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
         </div>
         <!-- Transcripts -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div id="french-container" class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm transcript-container">
+          <div id="french-container" class="bg-white dark:bg-darkBg p-6 rounded-lg shadow-sm transcript-container">
             <h2 class="text-lg font-medium mb-4 text-center text-gray-800 dark:text-darkText">Francês</h2>
             <div id="french-transcript"></div>
           </div>
-          <div id="right-transcript-container" class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm transcript-container">
+          <div id="right-transcript-container" class="bg-white dark:bg-darkBg p-6 rounded-lg shadow-sm transcript-container">
             <div class="flex justify-between items-center mb-4">
               <h2 id="right-transcript-title" class="text-lg font-medium text-center text-gray-800 dark:text-darkText">Português</h2>
-              <select id="language-toggle" class="material-button bg-primary text-white font-medium py-1 px-2 rounded-md hover:bg-[#407f7e]">
+              <select id="language-toggle" class="material-button bg-primary text-white font-medium py-1 px-2 rounded-md hover:bg-[#4A3B8C]">
                 <option value="pt">Português</option>
                 <option value="en">English</option>
               </select>
@@ -76,55 +83,34 @@
     <aside class="hidden md:block w-48 flex-shrink-0">
       <div class="sticky top-8">
         <h2 class="text-lg font-medium mb-4 text-gray-800 dark:text-darkText">Vídeos</h2>
-        <div class="space-y-4">
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="5ovh-Ux_zRs">
-            <img src="https://img.youtube.com/vi/5ovh-Ux_zRs/0.jpg" alt="Video 1" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="kXYiU_JCYtU">
-            <img src="https://img.youtube.com/vi/kXYiU_JCYtU/0.jpg" alt="Video 2" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ScMzIvxBSi4">
-            <img src="https://img.youtube.com/vi/ScMzIvxBSi4/0.jpg" alt="Video 3" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ysz5S6PUM-U">
-            <img src="https://img.youtube.com/vi/ysz5S6PUM-U/0.jpg" alt="Video 4" class="w-full h-24 object-cover">
-          </div>
-        </div>
+        <div id="video-sidebar" class="space-y-4"></div>
       </div>
     </aside>
-    <!-- Mobile Video Catalog -->
-    <div id="mobile-catalog" class="md:hidden mt-6">
-      <button id="toggle-catalog" class="material-button bg-primary text-white font-medium py-2 px-4 rounded-md hover:bg-[#407f7e] w-full">Mostrar Vídeos</button>
-      <div id="catalog-section" class="hidden mt-4">
-        <h2 class="text-lg font-medium mb-4 text-gray-800 dark:text-darkText">Vídeos</h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="5ovh-Ux_zRs">
-            <img src="https://img.youtube.com/vi/5ovh-Ux_zRs/0.jpg" alt="Video 1" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="kXYiU_JCYtU">
-            <img src="https://img.youtube.com/vi/kXYiU_JCYtU/0.jpg" alt="Video 2" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ScMzIvxBSi4">
-            <img src="https://img.youtube.com/vi/ScMzIvxBSi4/0.jpg" alt="Video 3" class="w-full h-24 object-cover">
-          </div>
-          <div class="video-card bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="ysz5S6PUM-U">
-            <img src="https://img.youtube.com/vi/ysz5S6PUM-U/0.jpg" alt="Video 4" class="w-full h-24 object-cover">
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
+
+  <!-- Full Catalog Section -->
+  <section class="container mx-auto px-4 py-8 max-w-7xl">
+    <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-darkText">Catálogo de Vídeos</h2>
+    <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    <div class="flex justify-center mt-6 space-x-2">
+      <button id="first-page" class="material-button px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-darkText rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed">Primeira</button>
+      <button id="prev-page" class="material-button px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-darkText rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed">Anterior</button>
+      <span id="page-info" class="px-4 py-2 text-gray-700 dark:text-darkText">Página 1 de 1</span>
+      <button id="next-page" class="material-button px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-darkText rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed">Próxima</button>
+      <button id="last-page" class="material-button px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-darkText rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:cursor-not-allowed">Última</button>
+    </div>
+  </section>
 
   <!-- Phonetic Tooltip -->
   <div id="phonetic-tooltip" class="hidden absolute z-50" role="tooltip" aria-label="Phonetic Transcription">
-    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-4 max-w-xs w-full transform transition-all duration-200 scale-95">
+    <div class="bg-white dark:bg-darkBg rounded-lg shadow-lg p-4 max-w-xs w-full transform transition-all duration-200 scale-95">
       <p id="phonetic-text" class="text-gray-800 dark:text-darkText text-sm font-mono"></p>
     </div>
     <div class="tooltip-arrow"></div>
   </div>
 
   <!-- Footer -->
-  <footer class="mt-12 py-6 bg-white dark:bg-gray-900 text-center text-sm text-gray-500 dark:text-gray-400">
+  <footer class="mt-12 py-6 bg-white dark:bg-darkBg text-center text-sm text-gray-500 dark:text-gray-400">
     <p>© 2025 LearnFrench. Todos os direitos reservados.</p>
     <p>Feito com ❤️ e Tailwind CSS.</p>
   </footer>
