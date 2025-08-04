@@ -1,45 +1,87 @@
-let player, subtitles = [], isSyncing = false, currentLanguage = 'pt', activeTooltipId = null, currentVideoId = '5ovh-Ux_zRs';
+let player, subtitles = [], isSyncing = false, currentLanguage = 'pt', activeTooltipId = null, currentVideoId = null;
 const videosPerPage = 6;
 let currentPage = 1;
 let scrollTimeout = null;
 let isUserScrolling = false;
-
-const candidateVideos = [
-  { id: '5ovh-Ux_zRs', title: 'Mais comment font-ils pour apprendre une langue?', folder: '5ovh-Ux_zRs' },
-  { id: 'DnTzsWM_gbQ', title: 'New French Learning Video', folder: 'DnTzsWM_gbQ' } // Replace with actual YouTube title
-];
-
 let videos = [];
+let lastHighlightedId = null;
 
 const languages = [
   { code: 'pt', name: 'Português' },
   { code: 'en', name: 'English' }
 ];
 
+async function fetchWithRetry(url, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, { cache: 'no-cache' });
+      if (response.ok) return response;
+      console.warn(`Fetch failed for ${url}: HTTP ${response.status}, retry ${i + 1}/${retries}`);
+      if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, delay));
+    } catch (error) {
+      console.warn(`Fetch error for ${url}: ${error}, retry ${i + 1}/${retries}`);
+      if (i < retries - 1) await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error(`Failed to fetch ${url} after ${retries} retries`);
+}
+
+async function fetchVideoFolders() {
+  try {
+    const response = await fetchWithRetry('/api/videos');
+    const data = await response.json();
+    console.log('Raw /api/videos response:', JSON.stringify(data));
+    if (!Array.isArray(data)) {
+      console.error('Invalid /api/videos response: Expected array, got', data);
+      return [];
+    }
+    const validFolders = data.filter(video => 
+      video.id && typeof video.id === 'string' && 
+      video.title && typeof video.title === 'string'
+    );
+    if (validFolders.length !== data.length) {
+      console.warn(`Skipped ${data.length - validFolders.length} invalid video entries from /api/videos`);
+    }
+    console.log('Valid video folders:', validFolders);
+    return validFolders;
+  } catch (error) {
+    console.error('Error fetching video folders:', error);
+    return [];
+  }
+}
+
 async function validateVideos() {
   videos = [];
+  const candidateVideos = await fetchVideoFolders();
   for (const video of candidateVideos) {
+    if (!video.id || typeof video.id !== 'string') {
+      console.warn(`Skipping invalid video ID: ${video.id}`);
+      continue;
+    }
     try {
-      const frResponse = await fetch(`texts/${video.folder}/original.fr.srt`);
-      const ptResponse = await fetch(`texts/${video.folder}/pt.srt`);
-      const enResponse = await fetch(`texts/${video.folder}/en.srt`);
+      const frResponse = await fetchWithRetry(`texts/${video.id}/original.fr.srt`);
+      const ptResponse = await fetchWithRetry(`texts/${video.id}/pt.srt`);
+      const enResponse = await fetchWithRetry(`texts/${video.id}/en.srt`);
       if (frResponse.ok && ptResponse.ok && enResponse.ok) {
-        videos.push(video);
-        console.log(`Validated video: ${video.id}`);
+        videos.push({ id: video.id, title: video.title, folder: video.id });
+        console.log(`Validated video: ${video.id} - ${video.title}`);
       } else {
-        console.warn(`Skipping video ${video.id}: Missing required SRT files`);
+        console.warn(`Skipping video ${video.id}: Missing required SRT files (fr: ${frResponse.status}, pt: ${ptResponse.status}, en: ${enResponse.status})`);
       }
     } catch (error) {
-      console.warn(`Skipping video ${video.id}: Error accessing SRT files`, error);
+      console.warn(`Skipping video ${video.id}: Error accessing SRT files - ${error.message}`);
     }
   }
   if (videos.length === 0) {
-    console.error('No valid videos found');
-    document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado</p>';
-    document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado</p>';
+    console.error('No valid videos found. Ensure the texts directory contains subfolders with original.fr.srt, pt.srt, and en.srt files.');
+    document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado. Verifique se a pasta texts contém subpastas com os arquivos original.fr.srt, pt.srt e en.srt, e se o servidor está funcionando corretamente.</p>';
+    document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado. Verifique se a pasta texts contém subpastas com os arquivos original.fr.srt, pt.srt e en.srt, e se o servidor está funcionando corretamente.</p>';
+    document.getElementById('video-sidebar').innerHTML = '<p class="text-red-500 text-sm">Nenhum vídeo disponível. Verifique a pasta texts e o servidor.</p>';
+    document.getElementById('catalog-grid').innerHTML = '<p class="text-red-500 text-sm">Nenhum vídeo disponível. Verifique a pasta texts e o servidor.</p>';
+  } else {
+    populateVideoSidebar();
+    populateCatalog();
   }
-  populateVideoSidebar();
-  populateCatalog();
 }
 
 function parseSRT(srt) {
@@ -65,59 +107,58 @@ function parseSRT(srt) {
   return subs;
 }
 
-function populateTranscript(id, subs, prefix) {
-  const el = document.getElementById(id);
-  el.innerHTML = '';
-  for (const s of subs) {
+function populateTranscript(containerId, subtitles, type) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  subtitles.forEach(sub => {
     const p = document.createElement('p');
-    p.className = 'transcript-p';
-    p.id = `${prefix}-${s.id}`;
-    if (prefix === 'fr') {
-      p.innerHTML = `<span class="transcript-text">${s.text}</span><span class="phonetic-toggle" data-id="${s.id}" title="Mostrar pronúncia">[P]</span>`;
-      p.querySelector('.transcript-text').onclick = () => {
-        console.log(`Seeking to ${s.start} for subtitle ${s.id}`);
-        player.seekTo(s.start, true);
-        player.playVideo();
+    p.id = `${type}-${sub.id}`;
+    p.className = 'transcript-p text-gray-800 dark:text-darkText p-2 cursor-pointer';
+    p.innerHTML = sub.text;
+    if (type === 'fr') {
+      const toggle = document.createElement('span');
+      toggle.className = 'phonetic-toggle text-purple-600 dark:text-purple-400 mr-2';
+      toggle.textContent = '[P]';
+      toggle.dataset.id = sub.id;
+      toggle.onclick = (e) => {
+        e.stopPropagation();
+        if (activeTooltipId === sub.id) {
+          hidePhoneticTooltip();
+        } else {
+          hidePhoneticTooltip();
+          showPhoneticTooltip(sub.id, toggle);
+        }
       };
-      const toggle = p.querySelector('.phonetic-toggle');
-      if (toggle) {
-        toggle.onclick = () => {
-          console.log(`Toggling phonetic tooltip for subtitle ${s.id}`);
-          if (activeTooltipId === s.id) {
-            hidePhoneticTooltip();
-          } else {
-            showPhoneticTooltip(s.id, toggle);
-          }
-        };
-      }
-    } else {
-      p.innerHTML = s.text;
-      p.onclick = () => {
-        console.log(`Seeking to ${s.start} for subtitle ${s.id}`);
-        player.seekTo(s.start, true);
-        player.playVideo();
-      };
+      p.prepend(toggle);
     }
-    el.appendChild(p);
-  }
+    p.onclick = () => {
+      if (player && player.seekTo) {
+        player.seekTo(sub.start, true);
+        player.playVideo();
+        centerHighlight();
+      }
+    };
+    container.appendChild(p);
+  });
 }
 
 async function loadSubtitles(videoId, langCode) {
+  if (!videoId) {
+    console.error('loadSubtitles: videoId is undefined');
+    document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
+    document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
+    return [];
+  }
   try {
     const video = videos.find(v => v.id === videoId);
     if (!video) throw new Error(`Video ${videoId} not found in validated videos`);
-    const frResponse = await fetch(`texts/${video.folder}/original.fr.srt`);
-    if (!frResponse.ok) throw new Error(`Failed to fetch original.fr.srt: ${frResponse.status}`);
+    const frResponse = await fetchWithRetry(`texts/${video.folder}/original.fr.srt`);
     const frText = await frResponse.text();
-
-    const otherResponse = await fetch(`texts/${video.folder}/${langCode}.srt`);
-    if (!otherResponse.ok) throw new Error(`Failed to fetch ${langCode}.srt: ${frResponse.status}`);
+    const otherResponse = await fetchWithRetry(`texts/${video.folder}/${langCode}.srt`);
     const otherText = await otherResponse.text();
-
     let phoneticText = '';
     try {
-      const phoneticResponse = await fetch(`texts/${video.folder}/phonetic.fr.srt`);
-      if (!phoneticResponse.ok) throw new Error(`Failed to fetch phonetic.fr.srt: ${phoneticResponse.status}`);
+      const phoneticResponse = await fetchWithRetry(`texts/${video.folder}/phonetic.fr.srt`);
       phoneticText = await phoneticResponse.text();
     } catch (error) {
       console.warn('Phonetic file not found or failed to load:', error.message);
@@ -143,8 +184,8 @@ async function loadSubtitles(videoId, langCode) {
     }));
   } catch (error) {
     console.error('Error loading subtitles:', error);
-    document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Erro ao carregar legendas</p>';
-    document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Erro ao carregar legendas</p>';
+    document.getElementById('french-transcript').innerHTML = `<p class="text-red-500">Erro ao carregar legendas: ${error.message}</p>`;
+    document.getElementById('right-transcript').innerHTML = `<p class="text-red-500">Erro ao carregar legendas: ${error.message}</p>`;
     return [];
   }
 }
@@ -190,6 +231,12 @@ function hidePhoneticTooltip() {
 }
 
 function loadVideo(videoId) {
+  if (!videoId) {
+    console.error('loadVideo: videoId is undefined');
+    document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
+    document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
+    return;
+  }
   if (player) {
     player.destroy();
   }
@@ -200,6 +247,14 @@ function loadVideo(videoId) {
       onReady: async () => {
         console.log(`YouTube player loaded video ${videoId}`);
         subtitles = await loadSubtitles(videoId, currentLanguage);
+        if (subtitles.length > 0) {
+          const firstSub = subtitles[0];
+          document.getElementById(`fr-${firstSub.id}`)?.classList.add('highlight');
+          document.getElementById(`right-${firstSub.id}`)?.classList.add('highlight');
+          lastHighlightedId = firstSub.id;
+          document.getElementById('center-highlight').disabled = false;
+          centerHighlight();
+        }
         syncScroll();
         currentVideoId = videoId;
         populateVideoSidebar();
@@ -232,11 +287,13 @@ function centerHighlight() {
 }
 
 function checkTime() {
-  if (player.getPlayerState() !== 1) return;
   const time = player.getCurrentTime();
-  const match = subtitles.find(s => time >= s.start && time < s.end);
+  let match = subtitles.find(s => time >= s.start && time < s.end);
+  if (!match && subtitles.length > 0) {
+    match = subtitles.find(s => s.id === lastHighlightedId) || subtitles[0];
+  }
   document.querySelectorAll('.transcript-p').forEach(el => {
-    if (el.classList.contains('highlight')) {
+    if (el.classList.contains('highlight') && (!match || el.id !== `fr-${match.id}` && el.id !== `right-${match.id}`)) {
       el.classList.add('highlight-exit');
       setTimeout(() => el.classList.remove('highlight', 'highlight-exit'), 300);
     }
@@ -247,7 +304,8 @@ function checkTime() {
     const otherElement = document.getElementById(`right-${match.id}`);
     if (frElement) frElement.classList.add('highlight');
     if (otherElement) otherElement.classList.add('highlight');
-    if (!isSyncing && !isUserScrolling) {
+    lastHighlightedId = match.id;
+    if (!isSyncing && !isUserScrolling && player.getPlayerState() === 1) {
       centerHighlight();
     }
     btn.disabled = false;
@@ -271,7 +329,7 @@ function syncScroll() {
         if (player.getPlayerState() === 1) {
           centerHighlight();
         }
-      }, 4000); // 4-second inactivity delay
+      }, 4000);
       setTimeout(() => isSyncing = false, 50);
     }
   };
@@ -286,7 +344,7 @@ function syncScroll() {
         if (player.getPlayerState() === 1) {
           centerHighlight();
         }
-      }, 4000); // 4-second inactivity delay
+      }, 4000);
       setTimeout(() => isSyncing = false, 50);
     }
   };
@@ -307,11 +365,17 @@ function handleCenterHighlight(e) {
   centerHighlight();
 }
 
+function truncateTitle(title) {
+  const maxLength = 30;
+  if (title.length <= maxLength) return title;
+  return title.substring(0, maxLength - 3) + '...';
+}
+
 function populateVideoSidebar() {
   const sidebar = document.getElementById('video-sidebar');
   sidebar.innerHTML = '';
   videos.filter(v => v.id !== currentVideoId).forEach(video => {
-    const titleWords = video.title.split(' ').slice(0, 5).join(' ');
+    const titleWords = truncateTitle(video.title);
     const card = `<div class="video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="${video.id}">
       <img src="https://img.youtube.com/vi/${video.id}/0.jpg" alt="${titleWords}" class="w-full h-24 object-cover">
       <p class="text-sm font-medium text-gray-800 dark:text-darkText p-2">${titleWords}</p>
@@ -333,7 +397,7 @@ function populateCatalog() {
   const start = (currentPage - 1) * videosPerPage;
   const end = start + videosPerPage;
   videos.slice(start, end).forEach(video => {
-    const titleWords = video.title.split(' ').slice(0, 5).join(' ');
+    const titleWords = truncateTitle(video.title);
     const div = document.createElement('div');
     div.className = 'video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer';
     div.dataset.video = video.id;
@@ -359,6 +423,14 @@ document.getElementById('center-highlight').onclick = handleCenterHighlight;
 document.getElementById('language-toggle').onchange = async (e) => {
   currentLanguage = e.target.value;
   subtitles = await loadSubtitles(currentVideoId, currentLanguage);
+  if (subtitles.length > 0) {
+    const match = subtitles.find(s => s.id === lastHighlightedId) || subtitles[0];
+    document.getElementById(`fr-${match.id}`)?.classList.add('highlight');
+    document.getElementById(`right-${match.id}`)?.classList.add('highlight');
+    lastHighlightedId = match.id;
+    document.getElementById('center-highlight').disabled = false;
+    centerHighlight();
+  }
   syncScroll();
   hidePhoneticTooltip();
 };
@@ -423,11 +495,10 @@ function onYouTubeIframeAPIReady() {
   validateVideos().then(() => {
     if (videos.length > 0) {
       currentVideoId = videos[0].id;
+      console.log(`Loading first valid video: ${currentVideoId}`);
       loadVideo(currentVideoId);
     } else {
-      console.error('No valid videos found');
-      document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado</p>';
-      document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Nenhum vídeo válido encontrado</p>';
+      console.error('No valid videos found, skipping video load');
     }
   });
 }
