@@ -1,4 +1,4 @@
-import { fetchWithRetry } from './utils.js';
+import { fetchWithRetry } from '../utils/utils.js';
 
 async function fetchVideoFolders() {
   console.log('Starting fetchVideoFolders');

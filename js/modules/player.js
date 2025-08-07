@@ -1,7 +1,7 @@
 import { loadSubtitles, populateTranscript, hidePhoneticTooltip } from './subtitles.js';
 import { setupSyncScroll, attachVideoClickListeners } from './events.js';
 import { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights } from './ui.js';
-import { truncateTitle } from './utils.js';
+import { truncateTitle } from '../utils/utils.js';
 
 function initPlayer(appState, validateVideos, languages, videosPerPage, setupEventListeners) {
   console.log('Dynamically loading YouTube IFrame API');

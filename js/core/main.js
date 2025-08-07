@@ -1,7 +1,7 @@
-import { fetchWithRetry } from './utils.js';
-import { fetchVideoFolders } from './api.js';
-import { setupEventListeners } from './events.js';
-import { initPlayer, loadVideo } from './player.js';
+import { fetchWithRetry } from '../utils/utils.js';
+import { fetchVideoFolders } from '../modules/api.js';
+import { setupEventListeners } from '../modules/events.js';
+import { initPlayer, loadVideo } from '../modules/player.js';
 
 console.log('main.js loaded and starting execution');
 

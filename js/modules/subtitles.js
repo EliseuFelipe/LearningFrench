@@ -1,4 +1,4 @@
-import { fetchWithRetry } from './utils.js';
+import { fetchWithRetry } from '../utils/utils.js';
 
 function parseSRT(srt) {
   console.log('Starting parseSRT');
