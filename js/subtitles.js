@@ -32,7 +32,7 @@ function parseSRT(srt) {
   return subs;
 }
 
-function populateTranscript(containerId, subtitles, type, player, centerHighlight, showPhoneticTooltip, hidePhoneticTooltip, activeTooltipId) {
+function populateTranscript(containerId, subtitles, type, player, centerHighlight) {
   console.log(`Starting populateTranscript for ${containerId}, type: ${type}, subtitles count: ${subtitles.length}`);
   const container = document.getElementById(containerId);
   if (!container) {
@@ -54,7 +54,7 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
       toggle.onclick = (e) => {
         e.stopPropagation();
         console.log(`Phonetic toggle clicked for ID ${sub.id}`);
-        if (activeTooltipId === sub.id) {
+        if (window.activeTooltipId === sub.id) {
           hidePhoneticTooltip();
         } else {
           hidePhoneticTooltip();
@@ -76,7 +76,7 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
   console.log(`Finished populateTranscript for ${containerId}`);
 }
 
-async function loadSubtitles(videoId, langCode, videos, languages, populateTranscript) {
+async function loadSubtitles(videoId, langCode, videos, languages, populateTranscript, player, centerHighlight) {
   console.log(`Starting loadSubtitles for videoId: ${videoId}, lang: ${langCode}`);
   if (!videoId) {
     console.error('loadSubtitles: videoId is undefined');
@@ -109,8 +109,8 @@ async function loadSubtitles(videoId, langCode, videos, languages, populateTrans
 
     console.log(`Loaded ${fr.length} French subtitles, ${other.length} ${langCode} subtitles, ${phonetic.length} phonetic subtitles`);
 
-    populateTranscript('french-transcript', fr, 'fr');
-    populateTranscript('right-transcript', other, 'right');
+    populateTranscript('french-transcript', fr, 'fr', player, centerHighlight);
+    populateTranscript('right-transcript', other, 'right', player, centerHighlight);
     const titleElement = document.getElementById('right-transcript-title');
     if (titleElement) {
       titleElement.textContent = languages.find(l => l.code === langCode).name;
@@ -134,9 +134,9 @@ async function loadSubtitles(videoId, langCode, videos, languages, populateTrans
   }
 }
 
-function showPhoneticTooltip(id, toggle, subtitles, activeTooltipId) {
+function showPhoneticTooltip(id, toggle) {
   console.log(`Showing phonetic tooltip for subtitle ID ${id}`);
-  const subtitle = subtitles.find(s => s.id === id);
+  const subtitle = window.subtitles.find(s => s.id === id);
   if (!subtitle) {
     console.error(`Subtitle with ID ${id} not found`);
     return;
@@ -168,19 +168,19 @@ function showPhoneticTooltip(id, toggle, subtitles, activeTooltipId) {
 
   tooltip.classList.remove('hidden');
   toggle.classList.add('active');
-  activeTooltipId = id;
+  window.activeTooltipId = id;
 }
 
-function hidePhoneticTooltip(activeTooltipId) {
+function hidePhoneticTooltip() {
   console.log('Hiding phonetic tooltip');
   const tooltip = document.getElementById('phonetic-tooltip');
   if (tooltip) {
     tooltip.classList.add('hidden');
   }
-  if (activeTooltipId) {
-    const toggle = document.querySelector(`.phonetic-toggle[data-id="${activeTooltipId}"]`);
+  if (window.activeTooltipId) {
+    const toggle = document.querySelector(`.phonetic-toggle[data-id="${window.activeTooltipId}"]`);
     if (toggle) toggle.classList.remove('active');
-    activeTooltipId = null;
+    window.activeTooltipId = null;
   }
 }
 

@@ -1,6 +1,7 @@
 // js/main.js
 import { fetchWithRetry } from './utils.js';
 import { loadSubtitles, parseSRT, populateTranscript, showPhoneticTooltip, hidePhoneticTooltip } from './subtitles.js';
+import { fetchVideoFolders } from './api.js';
 
 console.log('main.js loaded and starting execution');
 
@@ -25,7 +26,8 @@ tag.src = 'https://www.youtube.com/iframe_api';
 const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-let player, subtitles = [], isSyncing = false, currentLanguage = 'pt', activeTooltipId = null, currentVideoId = null;
+let player, subtitles = [], isSyncing = false, currentLanguage = 'pt', currentVideoId = null;
+window.activeTooltipId = null;
 const videosPerPage = 6;
 let currentPage = 1;
 let scrollTimeout = null;
@@ -37,32 +39,6 @@ const languages = [
   { code: 'pt', name: 'Português' },
   { code: 'en', name: 'English' }
 ];
-
-async function fetchVideoFolders() {
-  console.log('Starting fetchVideoFolders');
-  try {
-    const response = await fetchWithRetry('/api/videos');
-    console.log('fetchVideoFolders: Response received', response);
-    const data = await response.json();
-    console.log('Raw /api/videos response:', JSON.stringify(data));
-    if (!Array.isArray(data)) {
-      console.error('Invalid /api/videos response: Expected array, got', data);
-      return [];
-    }
-    const validFolders = data.filter(video => 
-      video.id && typeof video.id === 'string' && 
-      video.title && typeof video.title === 'string'
-    );
-    if (validFolders.length !== data.length) {
-      console.warn(`Skipped ${data.length - validFolders.length} invalid video entries from /api/videos`);
-    }
-    console.log('Valid video folders:', validFolders);
-    return validFolders;
-  } catch (error) {
-    console.error('Error fetching video folders:', error);
-    return [];
-  }
-}
 
 async function validateVideos() {
   console.log('Starting validateVideos');
@@ -130,7 +106,8 @@ function loadVideo(videoId) {
     events: {
       onReady: async () => {
         console.log(`YouTube player loaded video ${videoId}`);
-        subtitles = await loadSubtitles(videoId, currentLanguage, videos, languages, (containerId, subs, type) => populateTranscript(containerId, subs, type, player, centerHighlight, (id, toggle) => showPhoneticTooltip(id, toggle, subtitles, activeTooltipId), hidePhoneticTooltip, activeTooltipId));
+        subtitles = await loadSubtitles(videoId, currentLanguage, videos, languages, populateTranscript, player, centerHighlight);
+        window.subtitles = subtitles;
         console.log(`Subtitles loaded: ${subtitles.length}`);
         if (subtitles.length > 0) {
           const firstSub = subtitles[0];
@@ -184,19 +161,15 @@ function centerHighlight() {
 }
 
 function checkTime() {
-  console.log('Checking time');
   const time = player ? player.getCurrentTime() : 0;
-  console.log(`Current time: ${time}`);
   let match = subtitles.find(s => time >= s.start && time < s.end);
   if (!match && subtitles.length > 0) {
     match = subtitles.find(s => s.id === lastHighlightedId) || subtitles[0];
-    console.log(`Fallback match: ${match ? match.id : 'none'}`);
   }
   document.querySelectorAll('.transcript-p').forEach(el => {
     if (el.classList.contains('highlight') && (!match || el.id !== `fr-${match.id}` && el.id !== `right-${match.id}`)) {
       el.classList.add('highlight-exit');
       setTimeout(() => el.classList.remove('highlight', 'highlight-exit'), 300);
-      console.log(`Removing highlight from ${el.id}`);
     }
   });
   const btn = document.getElementById('center-highlight');
@@ -206,28 +179,21 @@ function checkTime() {
     if (frElement) frElement.classList.add('highlight');
     if (otherElement) otherElement.classList.add('highlight');
     lastHighlightedId = match.id;
-    console.log(`Highlighting ${match.id}`);
     if (!isSyncing && !isUserScrolling && player && player.getPlayerState() === 1) {
       centerHighlight();
     }
-    if (btn) btn.disabled = false;
+    btn.disabled = false;
   } else {
-    if (btn) btn.disabled = true;
+    btn.disabled = true;
     console.log('No match found, disabling center button');
   }
   requestAnimationFrame(checkTime);
 }
 
 function syncScroll() {
-  console.log('Setting up syncScroll');
   const fc = document.getElementById('french-container');
   const rc = document.getElementById('right-transcript-container');
-  if (!fc || !rc) {
-    console.error('Sync scroll containers not found');
-    return;
-  }
   fc.onscroll = () => {
-    console.log('French container scrolled');
     if (!isSyncing) {
       isSyncing = true;
       isUserScrolling = true;
@@ -235,7 +201,7 @@ function syncScroll() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         isUserScrolling = false;
-        if (player && player.getPlayerState() === 1) {
+        if (player.getPlayerState() === 1) {
           centerHighlight();
         }
       }, 4000);
@@ -243,7 +209,6 @@ function syncScroll() {
     }
   };
   rc.onscroll = () => {
-    console.log('Right container scrolled');
     if (!isSyncing) {
       isSyncing = true;
       isUserScrolling = true;
@@ -251,7 +216,7 @@ function syncScroll() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         isUserScrolling = false;
-        if (player && player.getPlayerState() === 1) {
+        if (player.getPlayerState() === 1) {
           centerHighlight();
         }
       }, 4000);
@@ -261,7 +226,6 @@ function syncScroll() {
 }
 
 function handleCenterHighlight(e) {
-  console.log('Center highlight button clicked');
   const ripple = document.createElement('span');
   ripple.className = 'ripple';
   const rect = e.currentTarget.getBoundingClientRect();
@@ -303,7 +267,7 @@ function populateVideoSidebar() {
     img.onclick = () => {
       console.log(`Sidebar video clicked: ${img.getAttribute('data-video')}`);
       loadVideo(img.getAttribute('data-video'));
-      hidePhoneticTooltip(activeTooltipId);
+      hidePhoneticTooltip();
     };
   });
   console.log('Finished populateVideoSidebar');
@@ -343,7 +307,7 @@ function populateCatalog() {
     img.onclick = () => {
       console.log(`Catalog video clicked: ${img.getAttribute('data-video')}`);
       loadVideo(img.getAttribute('data-video'));
-      hidePhoneticTooltip(activeTooltipId);
+      hidePhoneticTooltip();
     };
   });
   console.log('Finished populateCatalog');
@@ -361,7 +325,8 @@ if (languageToggle) {
   languageToggle.onchange = async (e) => {
     console.log(`Language changed to ${e.target.value}`);
     currentLanguage = e.target.value;
-    subtitles = await loadSubtitles(currentVideoId, currentLanguage, videos, languages, (containerId, subs, type) => populateTranscript(containerId, subs, type, player, centerHighlight, (id, toggle) => showPhoneticTooltip(id, toggle, subtitles, activeTooltipId), hidePhoneticTooltip, activeTooltipId));
+    subtitles = await loadSubtitles(currentVideoId, currentLanguage, videos, languages, populateTranscript, player, centerHighlight);
+    window.subtitles = subtitles;
     if (subtitles.length > 0) {
       const match = subtitles.find(s => s.id === lastHighlightedId) || subtitles[0];
       document.getElementById(`fr-${match.id}`)?.classList.add('highlight');
@@ -371,7 +336,7 @@ if (languageToggle) {
       centerHighlight();
     }
     syncScroll();
-    hidePhoneticTooltip(activeTooltipId);
+    hidePhoneticTooltip();
   };
 } else {
   console.error('language-toggle not found');
@@ -430,14 +395,14 @@ document.addEventListener('click', (e) => {
       !e.target.closest('#phonetic-tooltip') &&
       !e.target.classList.contains('phonetic-toggle')) {
     console.log('Click outside tooltip, hiding');
-    hidePhoneticTooltip(activeTooltipId);
+    hidePhoneticTooltip();
   }
 });
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !document.getElementById('phonetic-tooltip').classList.contains('hidden')) {
     console.log('Escape key pressed, hiding tooltip');
-    hidePhoneticTooltip(activeTooltipId);
+    hidePhoneticTooltip();
   }
 });
 
@@ -464,11 +429,19 @@ if (themeToggle) {
   console.error('theme-toggle not found');
 }
 
-console.log('Checking if YT API is loaded');
-if (typeof YT === 'undefined') {
-  console.error('YT API not defined. Make sure the YouTube IFrame API script is included in HTML.');
-} else {
-  console.log('YT API is available');
+// Updated YT API check with retry to avoid false warning
+function checkYouTubeAPI(retries = 5, delay = 500) {
+  console.log('Checking if YT API is loaded');
+  if (typeof YT !== 'undefined') {
+    console.log('YT API is available');
+  } else if (retries > 0) {
+    console.log(`YT API not ready yet, retrying in ${delay}ms...`);
+    setTimeout(() => checkYouTubeAPI(retries - 1, delay), delay);
+  } else {
+    console.error('YT API not defined after retries. Make sure the YouTube IFrame API script is included and loads correctly.');
+  }
 }
+
+checkYouTubeAPI();
 
 console.log('main.js execution finished');
