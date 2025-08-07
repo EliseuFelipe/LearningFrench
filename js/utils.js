@@ -1,4 +1,3 @@
-// js/utils.js
 async function fetchWithRetry(url, retries = 3, delay = 1000) {
   console.log(`Starting fetchWithRetry for URL: ${url}, retries: ${retries}, delay: ${delay}`);
   for (let i = 0; i < retries; i++) {
@@ -18,4 +17,10 @@ async function fetchWithRetry(url, retries = 3, delay = 1000) {
   throw new Error(`Failed to fetch ${url} after ${retries} retries`);
 }
 
-export { fetchWithRetry };
+function truncateTitle(title) {
+  const maxLength = 30;
+  if (title.length <= maxLength) return title;
+  return title.substring(0, maxLength - 3) + '...';
+}
+
+export { fetchWithRetry, truncateTitle };

@@ -1,5 +1,4 @@
-// js/main.js
-import { fetchWithRetry } from './utils.js';
+import { fetchWithRetry, truncateTitle } from './utils.js';
 import { loadSubtitles, parseSRT, populateTranscript, showPhoneticTooltip, hidePhoneticTooltip } from './subtitles.js';
 import { fetchVideoFolders } from './api.js';
 
@@ -238,12 +237,6 @@ function handleCenterHighlight(e) {
   clearTimeout(scrollTimeout);
   isUserScrolling = false;
   centerHighlight();
-}
-
-function truncateTitle(title) {
-  const maxLength = 30;
-  if (title.length <= maxLength) return title;
-  return title.substring(0, maxLength - 3) + '...';
 }
 
 function populateVideoSidebar() {

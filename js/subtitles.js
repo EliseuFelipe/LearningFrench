@@ -1,4 +1,3 @@
-// js/subtitles.js
 import { fetchWithRetry } from './utils.js';
 
 function parseSRT(srt) {
