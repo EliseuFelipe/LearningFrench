@@ -3,6 +3,7 @@ import { fetchWithRetry, truncateTitle } from './utils.js';
 import { loadSubtitles, parseSRT, populateTranscript, showPhoneticTooltip, hidePhoneticTooltip } from './subtitles.js';
 import { fetchVideoFolders } from './api.js';
 import { setupEventListeners, setupSyncScroll, attachVideoClickListeners } from './events.js';
+import { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights } from './ui.js';
 
 console.log('main.js loaded and starting execution');
 
@@ -87,8 +88,8 @@ async function validateVideos() {
     document.getElementById('catalog-grid').innerHTML = '<p class="text-red-500 text-sm">Nenhum vídeo disponível. Verifique a pasta texts e o servidor.</p>';
   } else {
     console.log('Populating sidebar and catalog');
-    populateVideoSidebar();
-    populateCatalog();
+    populateVideoSidebar(videos, appState.currentVideoId, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip);
+    populateCatalog(videos, appState.currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip);
   }
   console.log('Finished validateVideos');
 }
@@ -124,12 +125,12 @@ function loadVideo(videoId) {
           document.getElementById(`right-${firstSub.id}`)?.classList.add('highlight');
           appState.lastHighlightedId = firstSub.id;
           document.getElementById('center-highlight').disabled = false;
-          centerHighlight();
+          centerHighlight(appState);
         }
         setupSyncScroll(appState, centerHighlight);
         appState.currentVideoId = videoId;
-        populateVideoSidebar();
-        populateCatalog();
+        populateVideoSidebar(videos, appState.currentVideoId, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip);
+        populateCatalog(videos, appState.currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip);
       },
       onStateChange: () => {
         console.log('Player state changed');
@@ -140,118 +141,14 @@ function loadVideo(videoId) {
   console.log('Finished setting up player');
 }
 
-function centerHighlight() {
-  console.log('Starting centerHighlight');
-  const frElement = document.querySelector('#french-transcript .highlight');
-  const otherElement = document.querySelector('#right-transcript .highlight');
-  if (frElement && otherElement) {
-    console.log('Found highlight elements');
-    const frContainer = document.getElementById('french-container');
-    const rightContainer = document.getElementById('right-transcript-container');
-    if (!frContainer || !rightContainer) {
-      console.error('Transcript containers not found');
-      return;
-    }
-    const frRect = frElement.getBoundingClientRect();
-    const rightRect = otherElement.getBoundingClientRect();
-    const frContainerRect = frContainer.getBoundingClientRect();
-    const rightContainerRect = rightContainer.getBoundingClientRect();
-    
-    const frTargetScroll = frContainer.scrollTop + frRect.top - frContainerRect.top - (frContainerRect.height - frRect.height) / 2;
-    const rightTargetScroll = rightContainer.scrollTop + rightRect.top - rightContainerRect.top - (rightContainerRect.height - rightRect.height) / 2;
-
-    appState.isSyncing = true;
-    frContainer.scrollTo({ top: frTargetScroll, behavior: 'smooth' });
-    rightContainer.scrollTo({ top: rightTargetScroll, behavior: 'smooth' });
-    setTimeout(() => appState.isSyncing = false, 600);
-  } else {
-    console.log('No highlight elements found');
-  }
-}
-
 function checkTime() {
   const time = appState.player ? appState.player.getCurrentTime() : 0;
   let match = appState.subtitles.find(s => time >= s.start && time < s.end);
   if (!match && appState.subtitles.length > 0) {
     match = appState.subtitles.find(s => s.id === appState.lastHighlightedId) || appState.subtitles[0];
   }
-  document.querySelectorAll('.transcript-p').forEach(el => {
-    if (el.classList.contains('highlight') && (!match || el.id !== `fr-${match.id}` && el.id !== `right-${match.id}`)) {
-      el.classList.add('highlight-exit');
-      setTimeout(() => el.classList.remove('highlight', 'highlight-exit'), 300);
-    }
-  });
-  const btn = document.getElementById('center-highlight');
-  if (match) {
-    const frElement = document.getElementById(`fr-${match.id}`);
-    const otherElement = document.getElementById(`right-${match.id}`);
-    if (frElement) frElement.classList.add('highlight');
-    if (otherElement) otherElement.classList.add('highlight');
-    appState.lastHighlightedId = match.id;
-    if (!appState.isSyncing && !appState.isUserScrolling && appState.player && appState.player.getPlayerState() === 1) {
-      centerHighlight();
-    }
-    btn.disabled = false;
-  } else {
-    btn.disabled = true;
-    console.log('No match found, disabling center button');
-  }
+  updateHighlights(match, appState);
   requestAnimationFrame(checkTime);
-}
-
-function populateVideoSidebar() {
-  console.log('Starting populateVideoSidebar');
-  const sidebar = document.getElementById('video-sidebar');
-  if (!sidebar) {
-    console.error('video-sidebar not found');
-    return;
-  }
-  sidebar.innerHTML = '';
-  videos.filter(v => v.id !== appState.currentVideoId).forEach(video => {
-    const titleWords = truncateTitle(video.title);
-    console.log(`Adding sidebar card for ${video.id}`);
-    const card = `<div class="video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="${video.id}">
-      <img src="https://img.youtube.com/vi/${video.id}/0.jpg" alt="${titleWords}" class="w-full h-24 object-cover">
-      <p class="text-sm font-medium text-gray-800 dark:text-darkText p-2">${titleWords}</p>
-    </div>`;
-    sidebar.innerHTML += card;
-  });
-  attachVideoClickListeners('#video-sidebar [data-video]', loadVideo, hidePhoneticTooltip);
-  console.log('Finished populateVideoSidebar');
-}
-
-function populateCatalog() {
-  console.log('Starting populateCatalog');
-  const grid = document.getElementById('catalog-grid');
-  if (!grid) {
-    console.error('catalog-grid not found');
-    return;
-  }
-  grid.innerHTML = '';
-  const totalPages = Math.ceil(videos.length / videosPerPage);
-  console.log(`Total pages: ${totalPages}, currentPage: ${appState.currentPage}`);
-  const start = (appState.currentPage - 1) * videosPerPage;
-  const end = start + videosPerPage;
-  videos.slice(start, end).forEach(video => {
-    const titleWords = truncateTitle(video.title);
-    console.log(`Adding catalog card for ${video.id}`);
-    const div = document.createElement('div');
-    div.className = 'video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer';
-    div.dataset.video = video.id;
-    div.innerHTML = `<img src="https://img.youtube.com/vi/${video.id}/0.jpg" alt="${titleWords}" class="w-full h-32 object-cover">
-      <p class="text-sm font-medium text-gray-800 dark:text-darkText p-2">${titleWords}</p>`;
-    grid.appendChild(div);
-  });
-  const pageInfo = document.getElementById('page-info');
-  if (pageInfo) {
-    pageInfo.textContent = `Página ${appState.currentPage} de ${totalPages}`;
-  }
-  document.getElementById('first-page').disabled = appState.currentPage === 1;
-  document.getElementById('prev-page').disabled = appState.currentPage === 1;
-  document.getElementById('next-page').disabled = appState.currentPage === totalPages;
-  document.getElementById('last-page').disabled = appState.currentPage === totalPages;
-  attachVideoClickListeners('#catalog-grid [data-video]', loadVideo, hidePhoneticTooltip);
-  console.log('Finished populateCatalog');
 }
 
 // Updated YT API check with retry to avoid false warning
