@@ -1,15 +1,11 @@
-// js/ui.js
 function populateVideoSidebar(videos, currentVideoId, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip) {
-  console.log('Starting populateVideoSidebar');
   const sidebar = document.getElementById('video-sidebar');
   if (!sidebar) {
-    console.error('video-sidebar not found');
     return;
   }
   sidebar.innerHTML = '';
   videos.filter(v => v.id !== currentVideoId).forEach(video => {
     const titleWords = truncateTitle(video.title);
-    console.log(`Adding sidebar card for ${video.id}`);
     const card = `<div class="video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer" data-video="${video.id}">
       <img src="https://img.youtube.com/vi/${video.id}/0.jpg" alt="${titleWords}" class="w-full h-24 object-cover">
       <p class="text-sm font-medium text-gray-800 dark:text-darkText p-2">${titleWords}</p>
@@ -17,24 +13,19 @@ function populateVideoSidebar(videos, currentVideoId, truncateTitle, attachVideo
     sidebar.innerHTML += card;
   });
   attachVideoClickListeners('#video-sidebar [data-video]', loadVideo, hidePhoneticTooltip);
-  console.log('Finished populateVideoSidebar');
 }
 
 function populateCatalog(videos, currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip) {
-  console.log('Starting populateCatalog');
   const grid = document.getElementById('catalog-grid');
   if (!grid) {
-    console.error('catalog-grid not found');
     return;
   }
   grid.innerHTML = '';
   const totalPages = Math.ceil(videos.length / videosPerPage);
-  console.log(`Total pages: ${totalPages}, currentPage: ${currentPage}`);
   const start = (currentPage - 1) * videosPerPage;
   const end = start + videosPerPage;
   videos.slice(start, end).forEach(video => {
     const titleWords = truncateTitle(video.title);
-    console.log(`Adding catalog card for ${video.id}`);
     const div = document.createElement('div');
     div.className = 'video-card bg-white dark:bg-darkBg rounded-lg shadow-md overflow-hidden cursor-pointer';
     div.dataset.video = video.id;
@@ -51,19 +42,15 @@ function populateCatalog(videos, currentPage, videosPerPage, truncateTitle, atta
   document.getElementById('next-page').disabled = currentPage === totalPages;
   document.getElementById('last-page').disabled = currentPage === totalPages;
   attachVideoClickListeners('#catalog-grid [data-video]', loadVideo, hidePhoneticTooltip);
-  console.log('Finished populateCatalog');
 }
 
 function centerHighlight(appState) {
-  console.log('Starting centerHighlight');
   const frElement = document.querySelector('#french-transcript .highlight');
   const otherElement = document.querySelector('#right-transcript .highlight');
   if (frElement && otherElement) {
-    console.log('Found highlight elements');
     const frContainer = document.getElementById('french-container');
     const rightContainer = document.getElementById('right-transcript-container');
     if (!frContainer || !rightContainer) {
-      console.error('Transcript containers not found');
       return;
     }
     const frRect = frElement.getBoundingClientRect();
@@ -103,7 +90,6 @@ function updateHighlights(match, appState) {
     btn.disabled = false;
   } else {
     btn.disabled = true;
-    console.log('No match found, disabling center button');
   }
 }
 

@@ -1,4 +1,3 @@
-// js/events.js
 import { hidePhoneticTooltip } from './subtitles.js';
 
 function handleCenterHighlight(e, appState, centerHighlight) {
@@ -54,7 +53,6 @@ function setupSyncScroll(appState, centerHighlight) {
 function attachVideoClickListeners(selector, loadVideo, hidePhoneticTooltip) {
   document.querySelectorAll(selector).forEach(img => {
     img.onclick = () => {
-      console.log(`Video clicked: ${img.getAttribute('data-video')}`);
       loadVideo(img.getAttribute('data-video'));
       hidePhoneticTooltip();
     };
@@ -74,7 +72,6 @@ function setupEventListeners(appState, deps) {
   const languageToggle = document.getElementById('language-toggle');
   if (languageToggle) {
     languageToggle.onchange = async (e) => {
-      console.log(`Language changed to ${e.target.value}`);
       appState.currentLanguage = e.target.value;
       appState.subtitles = await loadSubtitles(appState.currentVideoId, appState.currentLanguage, videos, languages, populateTranscript, appState.player, centerHighlight);
       window.subtitles = appState.subtitles;
@@ -96,7 +93,6 @@ function setupEventListeners(appState, deps) {
   const firstPageBtn = document.getElementById('first-page');
   if (firstPageBtn) {
     firstPageBtn.onclick = () => {
-      console.log('First page clicked');
       appState.currentPage = 1;
       populateCatalog();
     };
@@ -107,7 +103,6 @@ function setupEventListeners(appState, deps) {
   const prevPageBtn = document.getElementById('prev-page');
   if (prevPageBtn) {
     prevPageBtn.onclick = () => {
-      console.log('Prev page clicked');
       if (appState.currentPage > 1) {
         appState.currentPage--;
         populateCatalog();
@@ -120,7 +115,6 @@ function setupEventListeners(appState, deps) {
   const nextPageBtn = document.getElementById('next-page');
   if (nextPageBtn) {
     nextPageBtn.onclick = () => {
-      console.log('Next page clicked');
       if (appState.currentPage < Math.ceil(videos.length / videosPerPage)) {
         appState.currentPage++;
         populateCatalog();
@@ -133,7 +127,6 @@ function setupEventListeners(appState, deps) {
   const lastPageBtn = document.getElementById('last-page');
   if (lastPageBtn) {
     lastPageBtn.onclick = () => {
-      console.log('Last page clicked');
       appState.currentPage = Math.ceil(videos.length / videosPerPage);
       populateCatalog();
     };
@@ -145,14 +138,12 @@ function setupEventListeners(appState, deps) {
     if (!document.getElementById('phonetic-tooltip').classList.contains('hidden') &&
         !e.target.closest('#phonetic-tooltip') &&
         !e.target.classList.contains('phonetic-toggle')) {
-      console.log('Click outside tooltip, hiding');
       hidePhoneticTooltip();
     }
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !document.getElementById('phonetic-tooltip').classList.contains('hidden')) {
-      console.log('Escape key pressed, hiding tooltip');
       hidePhoneticTooltip();
     }
   });
@@ -170,7 +161,6 @@ function setupEventListeners(appState, deps) {
     }
 
     themeToggle.onclick = () => {
-      console.log('Theme toggle clicked');
       root.classList.toggle('dark');
       const isDark = root.classList.contains('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
