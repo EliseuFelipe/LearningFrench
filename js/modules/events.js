@@ -12,7 +12,7 @@ function handleCenterHighlight(e, appState, centerHighlight) {
   setTimeout(() => ripple.remove(), 600);
   clearTimeout(appState.scrollTimeout);
   appState.isUserScrolling = false;
-  centerHighlight();
+  centerHighlight(appState);
 }
 
 function setupSyncScroll(appState, centerHighlight) {
