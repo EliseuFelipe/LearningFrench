@@ -40,7 +40,11 @@ function loadVideo(videoId, appState, languages, videosPerPage) {
   }
   appState.player = new YT.Player('player', {
     videoId: videoId,
-    playerVars: { 'playsinline': 1 },
+    playerVars: {
+      'playsinline': 1,
+      'rel': 0,          // Limita recomendações a vídeos do mesmo canal (não remove completamente devido a políticas do YouTube)
+      'modestbranding': 1 // Remove o logo do YouTube para uma aparência mais clean
+    },
     events: {
       onReady: async () => {
         appState.subtitles = await loadSubtitles(videoId, appState.currentLanguage, appState.videos, languages, populateTranscript, appState.player, () => centerHighlight(appState));
