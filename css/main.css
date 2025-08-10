@@ -219,9 +219,45 @@ select.material-button {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+.skeleton {
+  background: #F3F0F7; /* Base clara */
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden; /* Para conter o shimmer */
+}
+.dark .skeleton {
+  background: #2F2B4A; /* Base escura */
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%; /* Inicia fora da vista */
+  width: 200%; /* Larga o suficiente para passar */
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); /* Gradiente shimmer */
+  animation: shimmer 1.5s infinite linear; /* Rápido e linear para fast motion  */
+}
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,0.2), transparent); /* Adaptado para dark */
+}
+@keyframes shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); } /* Passa da esquerda para direita */
+}
+
 .skeleton-player {
   width: 100%;
-  height: 315px; /* Altura padrão do player YT */
+  height: 315px; /* Imita player YT */
+}
+.skeleton-thumbnail {
+  height: 8rem; /* Imita thumbnail (ajuste para mobile via media) */
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.skeleton-title {
+  height: 1.5rem;
+  width: 80%; /* Linha de título truncada */
 }
 .skeleton-line {
   height: 1.5rem;
@@ -232,7 +268,28 @@ select.material-button {
   width: 60%;
 }
 .skeleton-card {
-  height: 10rem; /* Ajuste para cards de sidebar/catalog */
+  display: flex;
+  flex-direction: column;
+  height: 12rem; /* Card completo: thumbnail + título */
   width: 100%;
   margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsividade: Mobile adapta grid/sidebar */
+@media (max-width: 768px) {
+  .skeleton-thumbnail {
+    height: 6rem; /* Menor em mobile */
+  }
+  .skeleton-card {
+    height: 10rem;
+  }
+  #catalog-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Flexível */
+  }
+  #video-sidebar {
+    flex-direction: row; /* Horizontal em mobile se necessário */
+    overflow-x: auto;
+  }
 }

@@ -107,7 +107,7 @@ function showSkeletons(isInitial = true) {
     playerDiv.innerHTML = '<div class="skeleton skeleton-player"></div>';
   }
 
-  // Transcript skeletons (8 linhas placeholders por painel)
+  // Transcript skeletons (linhas de texto)
   const frTranscript = document.getElementById('french-transcript');
   if (frTranscript) {
     frTranscript.innerHTML = '';
@@ -127,25 +127,33 @@ function showSkeletons(isInitial = true) {
     }
   }
 
-  // Sidebar skeletons (3 cards)
+  // Sidebar skeletons (3 cards com thumbnail + título)
   const sidebar = document.getElementById('video-sidebar');
   if (sidebar) {
     sidebar.innerHTML = '';
     for (let i = 0; i < 3; i++) {
       const card = document.createElement('div');
-      card.className = 'skeleton skeleton-card';
+      card.className = 'skeleton-card skeleton';
+      card.innerHTML = `
+        <div class="skeleton skeleton-thumbnail"></div>
+        <div class="skeleton skeleton-title"></div>
+      `;
       sidebar.appendChild(card);
     }
   }
 
-  // Catalog skeletons (6 cards) – apenas na inicialização
+  // Catalog skeletons (6 cards com thumbnail + título) – apenas na inicialização
   if (isInitial) {
     const catalogGrid = document.getElementById('catalog-grid');
     if (catalogGrid) {
       catalogGrid.innerHTML = '';
       for (let i = 0; i < 6; i++) {
         const card = document.createElement('div');
-        card.className = 'skeleton skeleton-card';
+        card.className = 'skeleton-card skeleton';
+        card.innerHTML = `
+          <div class="skeleton skeleton-thumbnail"></div>
+          <div class="skeleton skeleton-title"></div>
+        `;
         catalogGrid.appendChild(card);
       }
     }
