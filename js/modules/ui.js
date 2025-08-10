@@ -16,11 +16,18 @@ function populateVideoSidebar(videos, currentVideoId, truncateTitle, attachVideo
 }
 
 function populateCatalog(videos, currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip) {
+  console.log('populateCatalog called with videos:', JSON.stringify(videos), 'page:', currentPage);  // Log chamada
   const grid = document.getElementById('catalog-grid');
   if (!grid) {
+    console.warn('catalog-grid not found');  // Log se DOM ausente
     return;
   }
   grid.innerHTML = '';
+  if (videos.length === 0) {
+    grid.innerHTML = '<p class="text-red-500 text-sm">Nenhum vídeo disponível. Verifique a pasta texts e o servidor.</p>';
+    console.log('No videos: Showing error message in catalog');  // Log vazio
+    return;
+  }
   const totalPages = Math.ceil(videos.length / videosPerPage);
   const start = (currentPage - 1) * videosPerPage;
   const end = start + videosPerPage;
@@ -93,4 +100,61 @@ function updateHighlights(match, appState) {
   }
 }
 
-export { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights };
+function showSkeletons(isInitial = true) {
+  // Player skeleton
+  const playerDiv = document.getElementById('player');
+  if (playerDiv) {
+    playerDiv.innerHTML = '<div class="skeleton skeleton-player"></div>';
+  }
+
+  // Transcript skeletons (8 linhas placeholders por painel)
+  const frTranscript = document.getElementById('french-transcript');
+  if (frTranscript) {
+    frTranscript.innerHTML = '';
+    for (let i = 0; i < 8; i++) {
+      const line = document.createElement('div');
+      line.className = `skeleton skeleton-line ${i % 2 === 0 ? 'short' : ''}`;
+      frTranscript.appendChild(line);
+    }
+  }
+  const rightTranscript = document.getElementById('right-transcript');
+  if (rightTranscript) {
+    rightTranscript.innerHTML = '';
+    for (let i = 0; i < 8; i++) {
+      const line = document.createElement('div');
+      line.className = `skeleton skeleton-line ${i % 2 === 0 ? 'short' : ''}`;
+      rightTranscript.appendChild(line);
+    }
+  }
+
+  // Sidebar skeletons (3 cards)
+  const sidebar = document.getElementById('video-sidebar');
+  if (sidebar) {
+    sidebar.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const card = document.createElement('div');
+      card.className = 'skeleton skeleton-card';
+      sidebar.appendChild(card);
+    }
+  }
+
+  // Catalog skeletons (6 cards) – apenas na inicialização
+  if (isInitial) {
+    const catalogGrid = document.getElementById('catalog-grid');
+    if (catalogGrid) {
+      catalogGrid.innerHTML = '';
+      for (let i = 0; i < 6; i++) {
+        const card = document.createElement('div');
+        card.className = 'skeleton skeleton-card';
+        catalogGrid.appendChild(card);
+      }
+    }
+  }
+}
+
+function hideSkeletons() {
+  // Limpa skeletons de todos os containers
+  document.querySelectorAll('.skeleton').forEach(el => el.remove());
+}
+
+export { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights, showSkeletons, hideSkeletons };

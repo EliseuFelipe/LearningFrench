@@ -1,7 +1,8 @@
 import { loadSubtitles, populateTranscript, hidePhoneticTooltip } from './subtitles.js';
 import { setupSyncScroll, attachVideoClickListeners } from './events.js';
-import { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights } from './ui.js';
+import { populateVideoSidebar, populateCatalog, centerHighlight, updateHighlights, showSkeletons, hideSkeletons } from './ui.js';
 import { truncateTitle } from '../utils/utils.js';
+
 
 function initPlayer(appState, validateVideos, languages, videosPerPage, setupEventListeners) {
   const tag = document.createElement('script');
@@ -12,13 +13,16 @@ function initPlayer(appState, validateVideos, languages, videosPerPage, setupEve
   checkYouTubeAPI();
 
   function onYouTubeIframeAPIReady() {
+    showSkeletons(true);  // Skeletons completos na inicialização (inclui catálogo)
     validateVideos().then(() => {
       setupEventListeners(appState, { loadSubtitles, populateTranscript, centerHighlight, populateCatalog, languages, videosPerPage, videos: appState.videos });
+      console.log('Calling populateCatalog after validateVideos');
+      populateCatalog(appState.videos, appState.currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, (vid) => loadVideo(vid, appState, languages, videosPerPage), hidePhoneticTooltip);
       if (appState.videos.length > 0) {
         appState.currentVideoId = appState.videos[0].id;
         loadVideo(appState.currentVideoId, appState, languages, videosPerPage);
       } else {
-        console.error('No valid videos found, skipping video load');
+        hideSkeletons();
       }
     });
   }
@@ -27,23 +31,26 @@ function initPlayer(appState, validateVideos, languages, videosPerPage, setupEve
 }
 
 function loadVideo(videoId, appState, languages, videosPerPage) {
+  showSkeletons(false);  // Skeletons parciais em troca de vídeo (exclui catálogo)
   if (!videoId) {
     document.getElementById('french-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
     document.getElementById('right-transcript').innerHTML = '<p class="text-red-500">Erro: ID do vídeo inválido</p>';
+    hideSkeletons();
     return;
   }
   if (appState.player) {
     appState.player.destroy();
   }
   if (typeof YT === 'undefined' || !YT.Player) {
+    hideSkeletons();
     return;
   }
   appState.player = new YT.Player('player', {
     videoId: videoId,
     playerVars: {
       'playsinline': 1,
-      'rel': 0,          // Limita recomendações a vídeos do mesmo canal (não remove completamente devido a políticas do YouTube)
-      'modestbranding': 1 // Remove o logo do YouTube para uma aparência mais clean
+      'rel': 0,
+      'modestbranding': 1
     },
     events: {
       onReady: async () => {
@@ -60,7 +67,7 @@ function loadVideo(videoId, appState, languages, videosPerPage) {
         setupSyncScroll(appState, () => centerHighlight(appState));
         appState.currentVideoId = videoId;
         populateVideoSidebar(appState.videos, appState.currentVideoId, truncateTitle, attachVideoClickListeners, (vid) => loadVideo(vid, appState, languages, videosPerPage), hidePhoneticTooltip);
-        populateCatalog(appState.videos, appState.currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, (vid) => loadVideo(vid, appState, languages, videosPerPage), hidePhoneticTooltip);
+        hideSkeletons();  // Esconde após ready
       },
       onStateChange: () => {
         requestAnimationFrame(() => checkTime(appState));
@@ -68,6 +75,7 @@ function loadVideo(videoId, appState, languages, videosPerPage) {
     }
   });
 }
+
 
 function checkTime(appState) {
   const time = appState.player ? appState.player.getCurrentTime() : 0;

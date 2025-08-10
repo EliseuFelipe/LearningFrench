@@ -169,3 +169,70 @@ select.material-button {
   color: #4A3B8C;
   font-weight: bold;
 }
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.loading-overlay:not(.hidden) {
+  opacity: 1;
+  pointer-events: all;
+}
+.loading-overlay.hidden {
+  display: none;
+}
+.material-spinner {
+  width: 4rem;
+  height: 4rem;
+  border: 0.25rem solid rgba(94, 77, 178, 0.2); /* Purple-600 com opacidade */
+  border-top: 0.25rem solid #5E4DB2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.dark .material-spinner {
+  border: 0.25rem solid rgba(148, 163, 184, 0.2); /* Gray-400 para dark mode */
+  border-top: 0.25rem solid #9CA3AF;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.skeleton {
+  background: #F3F0F7;
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.dark .skeleton {
+  background: #2F2B4A;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.skeleton-player {
+  width: 100%;
+  height: 315px; /* Altura padrão do player YT */
+}
+.skeleton-line {
+  height: 1.5rem;
+  margin: 0.75rem 0;
+  width: 90%;
+}
+.skeleton-line.short {
+  width: 60%;
+}
+.skeleton-card {
+  height: 10rem; /* Ajuste para cards de sidebar/catalog */
+  width: 100%;
+  margin-bottom: 1rem;
+}
