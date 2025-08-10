@@ -1,4 +1,4 @@
-import { hidePhoneticTooltip } from './subtitles.js';
+import { hidePhoneticTooltip, hideAnkiModal } from './subtitles.js';
 
 function handleCenterHighlight(e, appState, centerHighlight) {
   const ripple = document.createElement('span');
@@ -169,6 +169,42 @@ function setupEventListeners(appState, deps) {
   } else {
     console.error('theme-toggle not found');
   }
+}
+
+const ankiModal = document.getElementById('anki-modal');
+if (ankiModal) {
+  ankiModal.addEventListener('click', (e) => {
+    if (e.target === ankiModal) hideAnkiModal();
+  });
+}
+const closeAnki = document.getElementById('close-anki');
+if (closeAnki) {
+  closeAnki.onclick = hideAnkiModal;
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !document.getElementById('anki-modal').classList.contains('hidden')) {
+    hideAnkiModal();
+  }
+});
+const copyFront = document.getElementById('copy-front');
+if (copyFront) {
+  copyFront.onclick = () => {
+    navigator.clipboard.writeText(document.getElementById('anki-front').textContent).then(() => {
+      const feedback = document.getElementById('copy-front-feedback');
+      feedback.classList.remove('hidden');
+      setTimeout(() => feedback.classList.add('hidden'), 2000);
+    }).catch(() => alert('Falha ao copiar.'));
+  };
+}
+const copyVerso = document.getElementById('copy-verso');
+if (copyVerso) {
+  copyVerso.onclick = () => {
+    navigator.clipboard.writeText(document.getElementById('anki-verso').textContent).then(() => {
+      const feedback = document.getElementById('copy-verso-feedback');
+      feedback.classList.remove('hidden');
+      setTimeout(() => feedback.classList.add('hidden'), 2000);
+    }).catch(() => alert('Falha ao copiar.'));
+  };
 }
 
 export { setupEventListeners, setupSyncScroll, attachVideoClickListeners };

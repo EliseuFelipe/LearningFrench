@@ -59,3 +59,5 @@ async function validateVideos() {
 }
 
 initPlayer(appState, validateVideos, languages, videosPerPage, setupEventListeners);
+
+export { appState };

@@ -109,6 +109,34 @@
     <div class="tooltip-arrow"></div>
   </div>
 
+  <!-- Modal para Template Anki -->
+  <div id="anki-modal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 transition-opacity duration-300" aria-hidden="true">
+    <div class="bg-white dark:bg-darkBg p-6 rounded-lg shadow-lg max-w-md w-full m-4 transform transition-transform duration-300 scale-95" id="anki-modal-content">
+      <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-darkText">Template Anki</h3>
+      <div class="mb-4 relative">
+        <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Frente (Texto Original):</label>
+        <div id="anki-front" class="p-3 bg-gray-100 dark:bg-gray-800 rounded text-gray-800 dark:text-darkText border border-gray-300 dark:border-gray-600 relative">
+          <!-- Conteúdo aqui -->
+          <button id="copy-front" class="absolute top-2 right-2 text-purple-600 hover:text-purple-800 transition-colors duration-200" aria-label="Copiar texto da frente">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+        <span id="copy-front-feedback" class="hidden absolute top-2 right-10 text-green-500 text-sm bg-white dark:bg-darkBg px-2 py-1 rounded shadow">Copiado!</span>
+      </div>
+      <div class="mb-4 relative">
+        <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Verso (Fonética e Tradução):</label>
+        <div id="anki-verso" class="p-3 bg-gray-100 dark:bg-gray-800 rounded text-gray-800 dark:text-darkText border border-gray-300 dark:border-gray-600 relative">
+          <!-- Conteúdo aqui -->
+          <button id="copy-verso" class="absolute top-2 right-2 text-purple-600 hover:text-purple-800 transition-colors duration-200" aria-label="Copiar texto do verso">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+        <span id="copy-verso-feedback" class="hidden absolute top-2 right-10 text-green-500 text-sm bg-white dark:bg-darkBg px-2 py-1 rounded shadow">Copiado!</span>
+      </div>
+      <button id="close-anki" class="material-button w-full">Fechar</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="mt-12 py-6 bg-white dark:bg-darkBg text-center text-sm text-gray-500 dark:text-gray-400">
     <p>© 2025 LearnFrench. Todos os direitos reservados.</p>
@@ -116,7 +144,6 @@
   </footer>
 
   <!-- YouTube API and Scripts -->
-  
   <script type="module" src="js/core/main.js"></script>
 </body>
 </html>

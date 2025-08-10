@@ -293,3 +293,93 @@ select.material-button {
     overflow-x: auto;
   }
 }
+#anki-modal:not(.hidden) {
+  opacity: 1;
+}
+#anki-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+#anki-modal-content:not(.hidden) {
+  scale: 1;
+}
+.anki-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #5E4DB2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.anki-toggle:hover {
+  color: #4A3B8C;
+}
+.anki-toggle:focus {
+  outline: 2px solid #5E4DB2;
+  outline-offset: 2px;
+}
+.copy-feedback {
+  transition: opacity 0.3s ease;
+}
+.copy-feedback.hidden {
+  opacity: 0;
+}
+@media (max-width: 768px) {
+  #anki-modal-content {
+    max-width: 90%;
+  }
+}
+.relative {
+  position: relative; /* Para botões absolutos */
+}
+.absolute.top-2.right-2 {
+  visibility: visible; /* Força visibilidade */
+  opacity: 0.7; /* Suave inicial */
+  transition: opacity 0.2s ease; /* Transição suave */
+  padding-right: 0.5rem; /* Evita sobreposição em textos longos */
+}
+.absolute.top-2.right-2:hover {
+  opacity: 1; /* Full em hover */
+}
+#anki-verso .phonetic {
+  font-style: italic; /* Itálico mantido */
+  display: inline; /* Inline para colar / ao texto sem quebras */
+  white-space: pre-wrap; /* Preserva espaços mas permite wrap se necessário */
+  margin-bottom: 0.5rem; /* Espaço para tradução */
+}
+#copy-front-feedback, #copy-verso-feedback {
+  transition: opacity 0.3s ease; /* Fade suave */
+}
+#copy-front-feedback:not(.hidden), #copy-verso-feedback:not(.hidden) {
+  opacity: 1;
+}
+#copy-front-feedback.hidden, #copy-verso-feedback.hidden {
+  opacity: 0;
+}
+#anki-front, #anki-verso {
+  padding-right: 2.5rem; /* Espaço para botão copy e feedback, evitando ocultação */
+}
+#anki-verso .phonetic {
+  font-style: italic;
+  display: inline; /* Inline para colar / sem quebras */
+  white-space: nowrap; /* Evita wraps indesejados; overflow para wrap se muito longo */
+  overflow-wrap: break-word; /* Quebra palavras longas se necessário */
+  margin-bottom: 0.5rem;
+}
+.absolute.top-2.right-2 {
+  visibility: visible;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.absolute.top-2.right-2:hover {
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  #anki-front, #anki-verso {
+    padding-right: 2rem; /* Ajuste menor em mobile */
+  }
+}

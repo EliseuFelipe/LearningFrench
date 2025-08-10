@@ -1,4 +1,5 @@
 import { fetchWithRetry } from '../utils/utils.js';
+import { appState } from '../core/main.js';
 
 function parseSRT(srt) {
   const subs = [], lines = srt.split('\n');
@@ -49,6 +50,17 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
         }
       };
       p.prepend(toggle);
+
+      // Adicionado: Botão Anki
+      const ankiToggle = document.createElement('span');
+      ankiToggle.className = 'anki-toggle ml-2';
+      ankiToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="M8 8h8"/><path d="M8 16h8"/></svg>'; // Ícone simples de card
+      ankiToggle.dataset.id = sub.id;
+      ankiToggle.onclick = (e) => {
+        e.stopPropagation();
+        showAnkiModal(sub.id);
+      };
+      p.appendChild(ankiToggle);
     }
     p.onclick = () => {
       if (player && player.seekTo) {
@@ -59,6 +71,36 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
     };
     container.appendChild(p);
   });
+}
+
+function showAnkiModal(id) {
+  const subtitle = window.subtitles.find(s => s.id === id);
+  if (!subtitle) return;
+  if (!appState) {
+    console.error('appState não definido em showAnkiModal');
+    return;
+  }
+  document.getElementById('anki-front').innerHTML = subtitle.fr || 'Texto não disponível';
+  const versoDiv = document.getElementById('anki-verso');
+  let phonetic = subtitle.phonetic || 'Fonética não disponível';
+  phonetic = phonetic.replace(/<br>/g, ' ').replace(/\|/g, ' ').trim();  // Remove <br>, | e trim para colar / sem quebras/espaços extras
+  const translation = subtitle[appState.currentLanguage] || 'Tradução não disponível';
+  versoDiv.innerHTML = `
+    <span class="phonetic">/${phonetic}/</span><br>  <!-- <br> para separação suave -->
+    <span>${translation}</span>
+  `;
+  const modal = document.getElementById('anki-modal');
+  if (!modal) {
+    console.error('Elemento #anki-modal não encontrado no DOM. Verifique index.html.');
+    return;
+  }
+  modal.classList.remove('hidden');
+  setTimeout(() => modal.querySelector('#anki-modal-content').classList.remove('scale-95'), 50);
+}
+
+function hideAnkiModal() {
+  const modal = document.getElementById('anki-modal');
+  modal.classList.add('hidden');
 }
 
 async function loadSubtitles(videoId, langCode, videos, languages, populateTranscript, player, centerHighlight) {
@@ -154,4 +196,4 @@ function hidePhoneticTooltip() {
   }
 }
 
-export { loadSubtitles, parseSRT, populateTranscript, showPhoneticTooltip, hidePhoneticTooltip };
+export { loadSubtitles, parseSRT, populateTranscript, showPhoneticTooltip, hidePhoneticTooltip, showAnkiModal, hideAnkiModal };
