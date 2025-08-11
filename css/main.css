@@ -169,95 +169,44 @@ select.material-button {
   color: #4A3B8C;
   font-weight: bold;
 }
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  transition: opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-.loading-overlay:not(.hidden) {
-  opacity: 1;
-  pointer-events: all;
-}
-.loading-overlay.hidden {
-  display: none;
-}
-.material-spinner {
-  width: 4rem;
-  height: 4rem;
-  border: 0.25rem solid rgba(94, 77, 178, 0.2); /* Purple-600 com opacidade */
-  border-top: 0.25rem solid #5E4DB2;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-.dark .material-spinner {
-  border: 0.25rem solid rgba(148, 163, 184, 0.2); /* Gray-400 para dark mode */
-  border-top: 0.25rem solid #9CA3AF;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 .skeleton {
   background: #F3F0F7;
   border-radius: 4px;
-  animation: pulse 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
 }
 .dark .skeleton {
   background: #2F2B4A;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-.skeleton {
-  background: #F3F0F7; /* Base clara */
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden; /* Para conter o shimmer */
-}
-.dark .skeleton {
-  background: #2F2B4A; /* Base escura */
 }
 .skeleton::after {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%; /* Inicia fora da vista */
-  width: 200%; /* Larga o suficiente para passar */
+  left: -100%;
+  width: 200%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); /* Gradiente shimmer */
-  animation: shimmer 1.5s infinite linear; /* Rápido e linear para fast motion  */
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite linear;
 }
 .dark .skeleton::after {
-  background: linear-gradient(90deg, transparent, rgba(148,163,184,0.2), transparent); /* Adaptado para dark */
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,0.2), transparent);
 }
 @keyframes shimmer {
   0% { transform: translateX(0); }
-  100% { transform: translateX(100%); } /* Passa da esquerda para direita */
+  100% { transform: translateX(100%); }
 }
-
 .skeleton-player {
   width: 100%;
-  height: 315px; /* Imita player YT */
+  height: 315px;
 }
 .skeleton-thumbnail {
-  height: 8rem; /* Imita thumbnail (ajuste para mobile via media) */
+  height: 8rem;
   width: 100%;
   margin-bottom: 0.5rem;
 }
 .skeleton-title {
   height: 1.5rem;
-  width: 80%; /* Linha de título truncada */
+  width: 80%;
 }
 .skeleton-line {
   height: 1.5rem;
@@ -270,26 +219,24 @@ select.material-button {
 .skeleton-card {
   display: flex;
   flex-direction: column;
-  height: 12rem; /* Card completo: thumbnail + título */
+  height: 12rem;
   width: 100%;
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
 }
-
-/* Responsividade: Mobile adapta grid/sidebar */
 @media (max-width: 768px) {
   .skeleton-thumbnail {
-    height: 6rem; /* Menor em mobile */
+    height: 6rem;
   }
   .skeleton-card {
     height: 10rem;
   }
   #catalog-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Flexível */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
   #video-sidebar {
-    flex-direction: row; /* Horizontal em mobile se necessário */
+    flex-direction: row;
     overflow-x: auto;
   }
 }
@@ -334,25 +281,19 @@ select.material-button {
   }
 }
 .relative {
-  position: relative; /* Para botões absolutos */
-}
-.absolute.top-2.right-2 {
-  visibility: visible; /* Força visibilidade */
-  opacity: 0.7; /* Suave inicial */
-  transition: opacity 0.2s ease; /* Transição suave */
-  padding-right: 0.5rem; /* Evita sobreposição em textos longos */
-}
-.absolute.top-2.right-2:hover {
-  opacity: 1; /* Full em hover */
+  position: relative;
 }
 #anki-verso .phonetic {
-  font-style: italic; /* Itálico mantido */
-  display: inline; /* Inline para colar / ao texto sem quebras */
-  white-space: pre-wrap; /* Preserva espaços mas permite wrap se necessário */
-  margin-bottom: 0.5rem; /* Espaço para tradução */
+  font-style: italic;
+  display: inline-block; /* permite que a largura seja respeitada */
+  white-space: normal;   /* agora pode quebrar linha */
+  word-break: break-word; /* força quebra se necessário */
+  overflow-wrap: anywhere; /* quebra mesmo no meio de palavras longas */
+  margin-bottom: 0.5rem;
+  max-width: 100%; /* impede ultrapassar a largura do container */
 }
 #copy-front-feedback, #copy-verso-feedback {
-  transition: opacity 0.3s ease; /* Fade suave */
+  transition: opacity 0.3s ease;
 }
 #copy-front-feedback:not(.hidden), #copy-verso-feedback:not(.hidden) {
   opacity: 1;
@@ -361,25 +302,25 @@ select.material-button {
   opacity: 0;
 }
 #anki-front, #anki-verso {
-  padding-right: 2.5rem; /* Espaço para botão copy e feedback, evitando ocultação */
+  padding-right: 2rem;
+  overflow: visible;
+  position: relative;
 }
-#anki-verso .phonetic {
-  font-style: italic;
-  display: inline; /* Inline para colar / sem quebras */
-  white-space: nowrap; /* Evita wraps indesejados; overflow para wrap se muito longo */
-  overflow-wrap: break-word; /* Quebra palavras longas se necessário */
-  margin-bottom: 0.5rem;
-}
-.absolute.top-2.right-2 {
+#copy-front, #copy-verso {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: block; /* Força display para consistência */
   visibility: visible;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-.absolute.top-2.right-2:hover {
   opacity: 1;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+#copy-front:hover, #copy-verso:hover {
+  opacity: 0.8;
 }
 @media (max-width: 768px) {
   #anki-front, #anki-verso {
-    padding-right: 2rem; /* Ajuste menor em mobile */
+    padding-right: 1.5rem;
   }
 }

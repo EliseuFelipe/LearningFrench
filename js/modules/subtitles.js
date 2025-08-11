@@ -73,6 +73,14 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
   });
 }
 
+function cleanText(text) {
+  return (text || '')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/&lt;br\s*\/?&gt;/gi, ' ')
+    .replace(/\|/g, ' ')
+    .trim();
+}
+
 function showAnkiModal(id) {
   const subtitle = window.subtitles.find(s => s.id === id);
   if (!subtitle) return;
@@ -80,18 +88,23 @@ function showAnkiModal(id) {
     console.error('appState não definido em showAnkiModal');
     return;
   }
-  document.getElementById('anki-front').innerHTML = subtitle.fr || 'Texto não disponível';
-  const versoDiv = document.getElementById('anki-verso');
-  let phonetic = subtitle.phonetic || 'Fonética não disponível';
-  phonetic = phonetic.replace(/<br>/g, ' ').replace(/\|/g, ' ').trim();  // Remove <br>, | e trim para colar / sem quebras/espaços extras
-  const translation = subtitle[appState.currentLanguage] || 'Tradução não disponível';
-  versoDiv.innerHTML = `
-    <span class="phonetic">/${phonetic}/</span><br>  <!-- <br> para separação suave -->
+
+  // Frente — já aplicando limpeza
+  document.getElementById('anki-front-text').textContent = cleanText(subtitle.fr) || 'Texto não disponível';
+
+  // Verso — limpeza na fonética e tradução
+  const phonetic = cleanText(subtitle.phonetic) || 'Fonética não disponível';
+  const translation = cleanText(subtitle[appState.currentLanguage]) || 'Tradução não disponível';
+
+  document.getElementById('anki-verso-text').innerHTML = `
+    <span class="phonetic">/${phonetic}/</span><br>
     <span>${translation}</span>
   `;
+
+  // Exibir modal
   const modal = document.getElementById('anki-modal');
   if (!modal) {
-    console.error('Elemento #anki-modal não encontrado no DOM. Verifique index.html.');
+    console.error('Elemento #anki-modal não encontrado no DOM.');
     return;
   }
   modal.classList.remove('hidden');
