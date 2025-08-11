@@ -324,3 +324,79 @@ select.material-button {
     padding-right: 1.5rem;
   }
 }
+.skeleton {
+  background: #F3F0F7;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.dark .skeleton {
+  background: #2F2B4A;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); /* Maior contraste */
+  animation: shimmer 1.2s infinite linear; /* Velocidade mais rápida */
+}
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,0.4), transparent); /* Contraste em dark */
+}
+@keyframes shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  height: 12rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: pulse 1.2s infinite ease-in-out; /* Adicionado: Pulse sutil para cards */
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; } /* Pulse leve para percepção */
+}
+.skeleton-player {
+  width: 100%;
+  height: 315px;
+}
+.skeleton-thumbnail {
+  height: 8rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.skeleton-title {
+  height: 1.5rem;
+  width: 80%;
+}
+.skeleton-line {
+  height: 1.5rem;
+  margin: 0.75rem 0;
+  width: 90%;
+}
+.skeleton-line.short {
+  width: 60%;
+}
+@media (max-width: 768px) {
+  .skeleton-thumbnail {
+    height: 6rem;
+  }
+  .skeleton-card {
+    height: 10rem;
+  }
+  #catalog-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  #video-sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
