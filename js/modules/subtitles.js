@@ -51,7 +51,6 @@ function populateTranscript(containerId, subtitles, type, player, centerHighligh
       };
       p.prepend(toggle);
 
-      // Adicionado: Botão Anki
       const ankiToggle = document.createElement('span');
       ankiToggle.className = 'anki-toggle ml-2';
       ankiToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="M8 8h8"/><path d="M8 16h8"/></svg>'; // Ícone simples de card
@@ -89,10 +88,8 @@ function showAnkiModal(id) {
     return;
   }
 
-  // Frente — já aplicando limpeza
   document.getElementById('anki-front-text').textContent = cleanText(subtitle.fr) || 'Texto não disponível';
 
-  // Verso — limpeza na fonética e tradução
   const phonetic = cleanText(subtitle.phonetic) || 'Fonética não disponível';
   const translation = cleanText(subtitle[appState.currentLanguage]) || 'Tradução não disponível';
 
@@ -101,7 +98,6 @@ function showAnkiModal(id) {
     <span>${translation}</span>
   `;
 
-  // Exibir modal
   const modal = document.getElementById('anki-modal');
   if (!modal) {
     console.error('Elemento #anki-modal não encontrado no DOM.');

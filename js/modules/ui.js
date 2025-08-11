@@ -16,16 +16,15 @@ function populateVideoSidebar(videos, currentVideoId, truncateTitle, attachVideo
 }
 
 function populateCatalog(videos, currentPage, videosPerPage, truncateTitle, attachVideoClickListeners, loadVideo, hidePhoneticTooltip) {
-  console.log('populateCatalog called with videos:', JSON.stringify(videos), 'page:', currentPage);  // Log chamada
   const grid = document.getElementById('catalog-grid');
   if (!grid) {
-    console.warn('catalog-grid not found');  // Log se DOM ausente
+    console.warn('catalog-grid not found');
     return;
   }
   grid.innerHTML = '';
   if (videos.length === 0) {
     grid.innerHTML = '<p class="text-red-500 text-sm">Nenhum vídeo disponível. Verifique a pasta texts e o servidor.</p>';
-    console.log('No videos: Showing error message in catalog');  // Log vazio
+    console.log('No videos: Showing error message in catalog');
     return;
   }
   const totalPages = Math.ceil(videos.length / videosPerPage);
@@ -101,13 +100,11 @@ function updateHighlights(match, appState) {
 }
 
 function showSkeletons(isInitial = true) {
-  // Player skeleton
   const playerDiv = document.getElementById('player');
   if (playerDiv) {
     playerDiv.innerHTML = '<div class="skeleton skeleton-player"></div>';
   }
 
-  // Transcript skeletons (linhas de texto)
   const frTranscript = document.getElementById('french-transcript');
   if (frTranscript) {
     frTranscript.innerHTML = '';
@@ -127,7 +124,6 @@ function showSkeletons(isInitial = true) {
     }
   }
 
-  // Sidebar skeletons (3 cards com thumbnail + título)
   const sidebar = document.getElementById('video-sidebar');
   if (sidebar) {
     sidebar.innerHTML = '';
@@ -142,7 +138,6 @@ function showSkeletons(isInitial = true) {
     }
   }
 
-  // Catalog skeletons (6 cards com thumbnail + título) – apenas na inicialização
   if (isInitial) {
     const catalogGrid = document.getElementById('catalog-grid');
     if (catalogGrid) {
