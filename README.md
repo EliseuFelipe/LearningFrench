@@ -21,6 +21,7 @@ Dependencies: None (standalone, no npm packages)
 Backend: Expects a /api/videos endpoint returning an array of video objects {id: string, title: string, folder: string?} and SRT files in texts/[folder]/*.srt
 
 Project Structure
+```
 ├── index.html          # Main HTML file
 ├── css/
 │   └── main.css        # Tailwind CSS styles with customizations
@@ -38,7 +39,7 @@ Project Structure
 │       ├── phonetic.fr.srt  # Phonetic transcriptions (optional)
 │       ├── pt.srt          # Portuguese translations
 │       └── en.srt          # English translations
-
+```
 Setup Instructions
 
 Clone the Repository:
