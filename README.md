@@ -1,17 +1,19 @@
 LearnFrench
 LearnFrench is an educational web application designed to help users learn French through YouTube videos with synchronized subtitles. It provides transcriptions in French (with optional phonetic tooltips), translations in multiple languages (e.g., Portuguese and English), real-time subtitle highlighting, a paginated video catalog, a sidebar with suggested videos, synchronized scrolling between transcription panels, and a light/dark theme toggle. The project is built with vanilla JavaScript, HTML5, and Tailwind CSS, avoiding heavy frameworks for a lightweight, standalone experience.
-Features
 
-Dynamic Video Loading: Loads videos and their subtitles (SRT files) from a backend API (/api/videos).
-Synchronized Subtitles: Displays French transcriptions with optional phonetic tooltips and translations in selected languages (e.g., Portuguese, English).
-YouTube Player Integration: Uses the YouTube IFrame API for video playback, with clickable subtitles for seeking.
-Real-Time Highlighting: Highlights active subtitles and auto-centers them during playback.
-Video Catalog: Paginated catalog with YouTube thumbnails for easy video selection.
-Sidebar Suggestions: Displays suggested videos excluding the currently playing one.
-Synchronized Scrolling: Syncs scrolling between French and translated transcription panels, with a 4-second timeout to resume auto-centering.
-Theming: Light/dark theme toggle persisted via localStorage.
-Anki Integration: Allows users to copy subtitle text for Anki flashcards via a modal.
-Responsive Design: Optimized for desktop and mobile with Tailwind CSS.
+## Features
+
+- **Dynamic Video Loading**: Loads videos and their subtitles (SRT files) from a backend API (`/api/videos`).
+- **Synchronized Subtitles**: Displays French transcriptions with optional phonetic tooltips and translations in selected languages (e.g., Portuguese, English).
+- **YouTube Player Integration**: Uses the YouTube IFrame API for video playback, with clickable subtitles for seeking.
+- **Real-Time Highlighting**: Highlights active subtitles and auto-centers them during playback.
+- **Video Catalog**: Paginated catalog with YouTube thumbnails for easy video selection.
+- **Sidebar Suggestions**: Displays suggested videos excluding the currently playing one.
+- **Synchronized Scrolling**: Syncs scrolling between French and translated transcription panels, with a 4-second timeout to resume auto-centering.
+- **Theming**: Light/dark theme toggle persisted via `localStorage`.
+- **Anki Integration**: Allows users to copy subtitle text for Anki flashcards via a modal.
+- **Responsive Design**: Optimized for desktop and mobile with Tailwind CSS.
+
 
 Technologies
 
