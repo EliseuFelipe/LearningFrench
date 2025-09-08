@@ -43,8 +43,10 @@ Project Structure
 Setup Instructions
 
 Clone the Repository:
+```
 git clone https://github.com/your-username/learnfrench.git
 cd learnfrench
+```
 
 
 Set Up a Backend Server:
