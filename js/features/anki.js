@@ -1,4 +1,3 @@
-// js/features/anki.js
 import { truncateTitle } from '../utils/utils.js';
 
 async function initGenanki() {
